@@ -11,6 +11,11 @@
   </head>
 
   <body>
-    <div id="root"></div>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+
+    <div id="root">
+        <%= yield %>
+    </div>
   </body>
 </html>
