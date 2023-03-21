@@ -29,3 +29,45 @@ nav {
     list-style: none;
   }
 }
+
+.workout-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.workout {
+  border-collapse: collapse;
+  font-size: 0.9em;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  margin: 0 auto;
+
+  thead tr {
+    background-color: #009879;
+    color: white;
+    text-align: left;
+    font-family: letters-for-learners;
+    font-size: 1.3em;
+  }
+
+  th,
+  td {
+    padding: 12px 15px;
+  }
+
+  tbody {
+    tr {
+      background-color: rgba(255, 255, 255, 0.8);
+      border-bottom: 1px solid #dddddd;
+    }
+
+    tr:nth-of-type(even) {
+      background-color: rgb(243, 243, 243, 0.9);
+    }
+
+    tr:last-of-type {
+      border-bottom: 2px solid #009879;
+    }
+  }
+}

@@ -3,6 +3,6 @@ class Api::WorkoutsController < ApplicationController
 
   def index
     @workouts = current_user.workouts
-    render json: @workouts, include: [sessions: { include: [:series]}]
+    render json: @workouts, include: [sessions: { include: [:series, :exercise]}]
   end
 end
