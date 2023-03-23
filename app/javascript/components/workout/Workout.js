@@ -1,11 +1,16 @@
 import React from 'react'
+import Tooltip from '../Tooltip'
 
 export default function Workout({ workout }) {
-  const { title, sessions, notes } = workout
+  let { title, sessions, notes } = workout
 
   const maxSets = Math.max(...sessions.map((session) => session.series.length))
   const tableRows = []
   for (let i = 0; i < maxSets; i++) tableRows.push(i)
+
+  notes = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora repellendus a inventore
+  cupiditate quidem vero veritatis mollitia excepturi at, provident ab deserunt. Temporibus dolores
+  ipsa dolorum doloribus voluptates corporis maxime.`
 
   return (
     <table className="workout">
@@ -16,11 +21,13 @@ export default function Workout({ workout }) {
               <span>
                 {title} - {new Date(workout.created_at).toLocaleDateString('en-GB')}
               </span>
-              <button className="tooltip">
-                <div className="tooltip-content">
-                  <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora repellendus a inventore cupiditate quidem vero veritatis mollitia excepturi at, provident ab deserunt. Temporibus dolores ipsa dolorum doloribus voluptates corporis maxime.</div>
-                </div>
-              </button>
+              {notes && (
+                <Tooltip>
+                  <p>
+                    <strong>Notes</strong>: {notes}
+                  </p>
+                </Tooltip>
+              )}
             </div>
           </th>
         </tr>
@@ -29,7 +36,21 @@ export default function Workout({ workout }) {
           {sessions.map((session) => {
             return (
               <th key={session.id}>
-                {session.exercise.name} <span className="font-07">(rest: {session.rest_time}s)</span>
+                <span className="flexbox flex-align-center gap-8">
+                  {session.exercise.name}
+                  <Tooltip>
+                    <>
+                      <p>
+                        <strong>Rest time</strong>: {session.rest_time}s
+                      </p>
+                      {session.note && (
+                        <p>
+                          <strong>Note</strong>: {session.note}
+                        </p>
+                      )}
+                    </>
+                  </Tooltip>
+                </span>
               </th>
             )
           })}
@@ -47,7 +68,18 @@ export default function Workout({ workout }) {
 
                 return (
                   <td key={j}>
-                    {set?.weight}x{set?.reps}
+                    <span className="flexbox flex-align-center gap-8">
+                      <>
+                        {set.weight}x{set.reps}
+                      </>
+                      {set.note && (
+                        <Tooltip>
+                          <p>
+                            <strong>Note</strong>: {set.note}
+                          </p>
+                        </Tooltip>
+                      )}
+                    </span>
                   </td>
                 )
               })}

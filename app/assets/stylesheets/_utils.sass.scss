@@ -127,22 +127,14 @@
   background-color: yellow;
   font-weight: 600;
   cursor: pointer;
-  position: relative;
 
-  &:before {
-    content: '?';
-  }
-
-  &:hover {
-    .tooltip-content {
-      display: block;
-    }
+  &:hover, &:focus {
+    background-color: darken(yellow, 5%);
   }
 }
 
 .tooltip-content {
   border: 1px solid grey;
-    display: none;
   position: absolute;
   top: 150%;
   left: 50%;
@@ -152,6 +144,14 @@
   border-radius: 4px;
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
   width: 10vw;
+  font-weight: normal;
+  cursor: auto;
+  z-index: 2;
+  color: black !important;
+}
+
+.hidden {
+  display: none;
 }
 
 @media (max-width: 1180px) {
