@@ -11,8 +11,27 @@ export default function Workout({ workout }) {
     <table className="workout">
       <thead>
         <tr>
+          <th colSpan={sessions.length}>
+            <div className="flexbox flex-center gap-8">
+              <span>
+                {title} - {new Date(workout.created_at).toLocaleDateString('en-GB')}
+              </span>
+              <button className="tooltip">
+                <div className="tooltip-content">
+                  <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora repellendus a inventore cupiditate quidem vero veritatis mollitia excepturi at, provident ab deserunt. Temporibus dolores ipsa dolorum doloribus voluptates corporis maxime.</div>
+                </div>
+              </button>
+            </div>
+          </th>
+        </tr>
+
+        <tr>
           {sessions.map((session) => {
-            return <th key={session.id}>{session.exercise.name}</th>
+            return (
+              <th key={session.id}>
+                {session.exercise.name} <span className="font-07">(rest: {session.rest_time}s)</span>
+              </th>
+            )
           })}
         </tr>
       </thead>
