@@ -20,8 +20,9 @@ export default function Home() {
     return <div>ERROR WITH FETCHING YOUR WORKOUTS</div>
   }
 
-
-  return <div>
-    <WorkoutList workouts={workouts} />
-  </div>
+  return (
+    <div className="py-24">
+      <WorkoutList workouts={workouts} />
+    </div>
+  )
 }

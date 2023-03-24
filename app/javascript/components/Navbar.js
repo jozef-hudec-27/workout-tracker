@@ -3,10 +3,16 @@ import React from 'react'
 export default function Navbar() {
   return (
     <nav>
-      <h1>WorkoutTracker</h1>
+      <h1>
+        <a href="">WorkoutTracker</a>
+      </h1>
 
-      <ul>
-        <li>
+      <ul className="flexbox gap-16">
+        <li className="nav-link">
+          <a href="">New workout</a>
+        </li>
+
+        <li className="nav-link">
           <a
             href=""
             onClick={(e) => {

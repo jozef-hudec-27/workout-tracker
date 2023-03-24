@@ -1,4 +1,5 @@
 @use './utils.sass.scss';
+@use './config.sass.scss' as *;
 
 h1,
 h2,
@@ -19,37 +20,51 @@ ul {
 body {
   margin: 0;
   height: 100vh;
+  background-color: rgb(252, 252, 252);
+  font-family: sans-serif;
 }
 
 nav {
-  border: 2px solid black;
   display: flex;
   justify-content: space-around;
   align-items: center;
+  background-color: darken($main-color, 5%);
+  color: white;
+  height: 64px;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25);
+  position: sticky;
+  top: 0;
+  z-index: 3;
 
   ul {
     list-style: none;
+  }
+
+  a {
+    @extend .animated-underline;
+
+    color: white;
+    text-decoration: none;
   }
 }
 
 .workout-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 24px;
 }
 
 .workout {
   border-collapse: collapse;
   font-size: 0.9em;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 16px 2px rgba(0, 0, 0, 0.25);
   width: 90%;
   margin: 0 auto;
 
   thead tr {
-    background-color: #009879;
+    background-color: lighten($main-color, 5%);
     color: white;
     text-align: left;
-    font-family: letters-for-learners;
     font-size: 1.3em;
   }
 
@@ -61,7 +76,7 @@ nav {
   tbody {
     tr {
       background-color: rgba(255, 255, 255, 0.8);
-      border-bottom: 1px solid #dddddd;
+      border-bottom: 1px solid rgb(221, 221, 221);
     }
 
     tr:nth-of-type(even) {
@@ -69,7 +84,7 @@ nav {
     }
 
     tr:last-of-type {
-      border-bottom: 2px solid #009879;
+      border-bottom: 2px solid lighten($main-color, 5%);
     }
   }
 }
