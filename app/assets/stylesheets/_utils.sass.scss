@@ -191,6 +191,31 @@
   }
 }
 
+.btn-group {
+  button {
+    @extend %reset-appearance;
+
+    padding: 8px 12px;
+    background-color: lightgrey;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      background-color: darken(lightgrey, 10%);
+    }
+  }
+
+  button:first-of-type {
+    border-top-left-radius: 999px;
+    border-bottom-left-radius: 999px;
+  }
+
+  button:last-of-type {
+    border-top-right-radius: 999px;
+    border-bottom-right-radius: 999px;
+  }
+}
+
 @media (max-width: 1180px) {
 }
 

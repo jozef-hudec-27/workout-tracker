@@ -1,5 +1,5 @@
 import React from 'react'
 
-export default function Page({ children }) {
-  return <div className="py-24">{children}</div>
+export default function Page({ children, name }) {
+  return <div id={`{name}-page`} className="p-24">{children}</div>
 }

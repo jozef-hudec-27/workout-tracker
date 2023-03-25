@@ -21,7 +21,7 @@ export default function Home() {
   if (error) return <Error message="There was an error fetching your workouts. Please try again later." />
 
   return (
-    <Page>
+    <Page name="home">
       <WorkoutList workouts={workouts} />
     </Page>
   )
