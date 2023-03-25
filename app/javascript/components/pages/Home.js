@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { request } from '../../utils'
+import Page from '../Page'
 import WorkoutList from '../workout/WorkoutList'
+import Error from './Error'
 
 export default function Home() {
   const [error, setError] = useState(false)
@@ -16,13 +18,11 @@ export default function Home() {
     )
   }, [])
 
-  if (error) {
-    return <div>ERROR WITH FETCHING YOUR WORKOUTS</div>
-  }
+  if (error) return <Error message="There was an error fetching your workouts. Please try again later." />
 
   return (
-    <div className="py-24">
+    <Page>
       <WorkoutList workouts={workouts} />
-    </div>
+    </Page>
   )
 }
