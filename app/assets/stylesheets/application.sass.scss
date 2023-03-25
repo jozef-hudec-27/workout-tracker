@@ -43,6 +43,7 @@ nav {
   a {
     @extend .animated-underline;
 
+    outline: none;
     color: white;
     text-decoration: none;
   }

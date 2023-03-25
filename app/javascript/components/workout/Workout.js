@@ -8,12 +8,6 @@ export default function Workout({ workout }) {
   const tableRows = []
   for (let i = 0; i < maxSets; i++) tableRows.push(i)
 
-  if (workout.id % 2 === 0) {
-    notes = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora repellendus a inventore
-    cupiditate quidem vero veritatis mollitia excepturi at, provident ab deserunt. Temporibus dolores
-    ipsa dolorum doloribus voluptates corporis maxime.`
-  }
-
   return (
     <table className="workout">
       <thead>
@@ -21,7 +15,7 @@ export default function Workout({ workout }) {
           <th colSpan={sessions.length}>
             <div className="flexbox flex-center gap-8">
               <span>
-                {title} - {new Date(workout.created_at).toLocaleDateString('en-GB')}
+                {title && `${title} -`} {new Date(workout.created_at).toLocaleDateString('en-GB')}
               </span>
               {notes && (
                 <Tooltip>
