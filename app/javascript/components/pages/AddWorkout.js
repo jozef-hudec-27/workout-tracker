@@ -3,6 +3,8 @@ import { request, arrOfLength, findMaxSets } from '../../utils'
 import Page from '../Page'
 import Error from './Error'
 import { useNavigate } from 'react-router-dom'
+import ButtonGroup from '../ButtonGroup'
+import Select from '../Select'
 
 export default function AddWorkout({ workouts, setWorkouts }) {
   const [allExercises, setAllExercises] = useState([])
@@ -69,17 +71,43 @@ export default function AddWorkout({ workouts, setWorkouts }) {
         const sessionEl = document.getElementById(`session-${i}`)
         if (!sessionEl) return
 
-        sessionEl.querySelector('select')?.value = session.exercise_id
-        sessionEl.querySelector('.session-rest-time')?.value = session.rest_time
-        sessionEl.querySelector('.session-note')?.value = session.note
+        sessionEl.querySelector('select').value = session.exercise_id
+        sessionEl.querySelector('.session-rest-time').value = session.rest_time
+        sessionEl.querySelector('.session-note').value = session.note
 
         const setEls = Array.from(document.getElementsByClassName(`session-${i}-set`) || [])
         setEls.forEach((setEl, j) => {
-          setEl.querySelector('.set-weight')?.value = workout.sessions[i]?.series[j]?.weight
-          setEl.querySelector('.set-reps')?.value = workout.sessions[i]?.series[j]?.reps
-          setEl.querySelector('.set-note')?.value = workout.sessions[i]?.series[j]?.note
+          setEl.querySelector('.set-weight').value = workout.sessions[i].series[j].weight
+          setEl.querySelector('.set-reps').value = workout.sessions[i].series[j].reps
+          setEl.querySelector('.set-note').value = workout.sessions[i].series[j].note
         })
       })
+    })
+  }
+
+  const handleSaveBtn = () => {
+    request(
+      '/api/workouts',
+      'POST',
+      {
+        headers: {
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        },
+        body: JSON.stringify(buildWorkoutObj()),
+      },
+      (data) => {
+        setWorkouts((prev) => [data, ...prev])
+        navigate('/')
+      },
+      (_) => setCreateError(true)
+    )
+  }
+
+  const handleClearBtn = () => {
+    setMaxSets(1)
+    setSessionCount(1)
+    Array.from(document.querySelectorAll('input')).forEach((input) => {
+      input.value = ''
     })
   }
 
@@ -92,36 +120,29 @@ export default function AddWorkout({ workouts, setWorkouts }) {
   return (
     <Page name="add-workout">
       <div className="flexbox flex-align-center gap-8 py-16">
-        <label htmlFor="prev-workouts">Copy workout:</label>
-
-        <select
-          defaultValue="-1"
+        <Select
           id="prev-workouts"
+          label="Copy workout"
           onChange={(e) => {
             const pickedWorkout = workouts.find((w) => w.id == e.target.value)
             if (pickedWorkout) copyToTable(pickedWorkout)
           }}
-        >
-          <option disabled value="-1">
-            -- select an option --
-          </option>
-
-          {workouts.map((workout) => {
-            return (
-              <option key={workout.id} value={workout.id}>
-                {workout.title && `${workout.title} -`} {new Date(workout.created_at).toLocaleDateString('en-GB')}
-              </option>
-            )
-          })}
-        </select>
+          options={workouts.map((w) => ({
+            value: w.id,
+            name: `${w.title && w.title + ' - '}${new Date(w.created_at).toLocaleDateString('en-GB')}`,
+          }))}
+        />
       </div>
 
-      <div className="add-workout-btns btn-group flexbox flex-center">
-        <button onClick={() => setMaxSets((prev) => prev + 1)}>Add set</button>
-        <button onClick={() => setSessionCount((prev) => prev + 1)}>Add session</button>
-      </div>
+      <ButtonGroup
+        className="add-workout-btns"
+        btnObjs={[
+          { name: 'Add set', onClick: () => setMaxSets((prev) => prev + 1) },
+          { name: 'Add session', onClick: () => setSessionCount((prev) => prev + 1) },
+        ]}
+      />
 
-      <div className="py-16" style={{ overflowX: 'auto' }}>
+      <div className="workout-wrapper py-16">
         <table className="workout">
           <thead>
             <tr>
@@ -138,15 +159,7 @@ export default function AddWorkout({ workouts, setWorkouts }) {
                 return (
                   <th key={i} id={`session-${i}`} className="session">
                     <div className="flexbox flex-column gap-4">
-                      <select name="exercises">
-                        {allExercises.map((exercise) => {
-                          return (
-                            <option key={exercise.id} value={exercise.id}>
-                              {exercise.name}
-                            </option>
-                          )
-                        })}
-                      </select>
+                      <Select options={allExercises.map((e) => ({ value: e.id, name: e.name }))} hideDefault />
                       <input type="number" placeholder="Rest time (s)" min="0" className="session-rest-time" />
                       <input type="text" placeholder="Note" className="session-note" />
                     </div>
@@ -180,38 +193,13 @@ export default function AddWorkout({ workouts, setWorkouts }) {
         </table>
       </div>
 
-      <div className="add-workout-btns btn-group flexbox flex-center">
-        <button
-          onClick={() => {
-            request(
-              '/api/workouts',
-              'POST',
-              {
-                headers: { 'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content') },
-                body: JSON.stringify(buildWorkoutObj()),
-              },
-              (data) => {
-                setWorkouts((prev) => [data, ...prev])
-                navigate('/')
-              },
-              (_) => setCreateError(true)
-            )
-          }}
-        >
-          Save{' '}
-        </button>
-        <button
-          onClick={() => {
-            setMaxSets(1)
-            setSessionCount(1)
-            Array.from(document.querySelectorAll('input')).forEach((input) => {
-              input.value = ''
-            })
-          }}
-        >
-          Clear
-        </button>
-      </div>
+      <ButtonGroup
+        className="add-workout-btns"
+        btnObjs={[
+          { name: 'Save', onClick: handleSaveBtn },
+          { name: 'Clear', onClick: handleClearBtn },
+        ]}
+      />
     </Page>
   )
 }

@@ -74,6 +74,10 @@ nav {
   gap: 24px;
 }
 
+.workout-wrapper {
+  overflow-x: auto;
+}
+
 .workout {
   border-collapse: collapse;
   font-size: 0.9em;
