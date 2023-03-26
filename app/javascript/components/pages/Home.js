@@ -1,25 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { request } from '../../utils'
+import React from 'react'
 import Page from '../Page'
 import WorkoutList from '../workout/WorkoutList'
-import Error from './Error'
 
-export default function Home() {
-  const [error, setError] = useState(false)
-  const [workouts, setWorkouts] = useState([])
-
-  useEffect(() => {
-    request(
-      '/api/workouts',
-      'GET',
-      {},
-      (data) => setWorkouts(data),
-      (_) => setError(true)
-    )
-  }, [])
-
-  if (error) return <Error message="There was an error fetching your workouts. Please try again later." />
-
+export default function Home({ workouts }) {
   return (
     <Page name="home">
       <WorkoutList workouts={workouts} />

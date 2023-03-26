@@ -20,3 +20,7 @@ export function arrOfLength(n) {
 
   return arr
 }
+
+export function findMaxSets(sessions) {
+  return Math.max(...sessions.map((session) => session.series.length))
+}

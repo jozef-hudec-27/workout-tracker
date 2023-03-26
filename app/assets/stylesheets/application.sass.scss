@@ -24,6 +24,25 @@ body {
   font-family: sans-serif;
 }
 
+input,
+select {
+  outline: none;
+  box-sizing: border-box;
+  width: 150px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid grey;
+  color: rgb(64, 64, 64);
+
+  &:focus {
+    outline: 4px solid lightgreen;
+  }
+}
+
+input {
+  background-color: rgb(252, 252, 252);
+}
+
 nav {
   display: flex;
   justify-content: space-around;
@@ -87,25 +106,6 @@ nav {
     tr:last-of-type {
       border-bottom: 2px solid lighten($main-color, 5%);
     }
-  }
-
-  input,
-  select {
-    outline: none;
-    box-sizing: border-box;
-    width: 150px;
-    padding: 4px 8px;
-    border-radius: 4px;
-    border: 1px solid grey;
-    color: rgb(64, 64, 64);
-
-    &:focus {
-      outline: 4px solid lightgreen;
-    }
-  }
-
-  input {
-    background-color: rgb(252, 252, 252);
   }
 }
 

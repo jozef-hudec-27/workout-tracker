@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { request, arrOfLength } from '../../utils'
+import { request, arrOfLength, findMaxSets } from '../../utils'
 import Page from '../Page'
 import Error from './Error'
 import { useNavigate } from 'react-router-dom'
 
-export default function AddWorkout() {
+export default function AddWorkout({ workouts, setWorkouts }) {
   const [allExercises, setAllExercises] = useState([])
   const [maxSets, setMaxSets] = useState(1)
   const [sessionCount, setSessionCount] = useState(1)
@@ -20,12 +20,6 @@ export default function AddWorkout() {
       (_) => setAllExercises(null)
     )
   }, [])
-
-  if (allExercises === null) {
-    return <Error message="There was an error getting your exercises. Please try again later." />
-  } else if (createError) {
-    return <Error message="There was an error creating a new workout. Please try again later." />
-  }
 
   const buildWorkoutObj = () => {
     const workout = {
@@ -63,8 +57,65 @@ export default function AddWorkout() {
     return workout
   }
 
+  const copyToTable = (workout) => {
+    setSessionCount(workout.sessions.length)
+    setMaxSets(findMaxSets(workout.sessions))
+
+    document.getElementById('workout-title').value = workout.title
+    document.getElementById('workout-notes').value = workout.notes
+
+    workout.sessions.forEach((session, i) => {
+      window.requestAnimationFrame(() => {
+        const sessionEl = document.getElementById(`session-${i}`)
+        if (!sessionEl) return
+
+        sessionEl.querySelector('select')?.value = session.exercise_id
+        sessionEl.querySelector('.session-rest-time')?.value = session.rest_time
+        sessionEl.querySelector('.session-note')?.value = session.note
+
+        const setEls = Array.from(document.getElementsByClassName(`session-${i}-set`) || [])
+        setEls.forEach((setEl, j) => {
+          setEl.querySelector('.set-weight')?.value = workout.sessions[i]?.series[j]?.weight
+          setEl.querySelector('.set-reps')?.value = workout.sessions[i]?.series[j]?.reps
+          setEl.querySelector('.set-note')?.value = workout.sessions[i]?.series[j]?.note
+        })
+      })
+    })
+  }
+
+  if (allExercises === null) {
+    return <Error message="There was an error getting your exercises. Please try again later." />
+  } else if (createError) {
+    return <Error message="There was an error creating a new workout. Please try again later." />
+  }
+
   return (
     <Page name="add-workout">
+      <div className="flexbox flex-align-center gap-8 py-16">
+        <label htmlFor="prev-workouts">Copy workout:</label>
+
+        <select
+          defaultValue="-1"
+          id="prev-workouts"
+          onChange={(e) => {
+            const pickedWorkout = workouts.find((w) => w.id == e.target.value)
+            if (pickedWorkout) copyToTable(pickedWorkout)
+          }}
+        >
+          <option disabled value="-1">
+            -- select an option --
+          </option>
+
+          {workouts.map((workout) => {
+            return (
+              <option key={workout.id} value={workout.id}>
+                {workout.title && `${workout.title} -`} {new Date(workout.created_at).toLocaleDateString('en-GB')}
+              </option>
+            )
+          })}
+        </select>
+      </div>
+
       <div className="add-workout-btns btn-group flexbox flex-center">
         <button onClick={() => setMaxSets((prev) => prev + 1)}>Add set</button>
         <button onClick={() => setSessionCount((prev) => prev + 1)}>Add session</button>
@@ -139,8 +190,11 @@ export default function AddWorkout() {
                 headers: { 'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content') },
                 body: JSON.stringify(buildWorkoutObj()),
               },
-              (data) => navigate('/'),
-              (err) => setCreateError(true)
+              (data) => {
+                setWorkouts((prev) => [data, ...prev])
+                navigate('/')
+              },
+              (_) => setCreateError(true)
             )
           }}
         >

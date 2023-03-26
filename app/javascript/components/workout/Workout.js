@@ -1,10 +1,11 @@
 import React from 'react'
+import { findMaxSets } from '../../utils'
 import Tooltip from '../Tooltip'
 
 export default function Workout({ workout }) {
   let { title, sessions, notes } = workout
 
-  const maxSets = Math.max(...sessions.map((session) => session.series.length))
+  const maxSets = findMaxSets(sessions)
   const tableRows = []
   for (let i = 0; i < maxSets; i++) tableRows.push(i)
 
