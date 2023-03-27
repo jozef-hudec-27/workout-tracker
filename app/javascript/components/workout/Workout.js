@@ -1,21 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { arrOfLength, findMaxSets } from '../../utils'
 import Tooltip from '../Tooltip'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import WorkoutDeleteConfirmModal from './WorkoutDeleteConfirmModal'
 
 export default function Workout({ workout }) {
+  const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false)
+
   let { title, sessions, notes } = workout
   const maxSets = findMaxSets(sessions)
 
   return (
     <div className="workout-wrapper">
+      {showDeleteConfirmModal && <WorkoutDeleteConfirmModal setShow={setShowDeleteConfirmModal} />}
+
       <table className="workout">
         <thead>
           <tr>
             <th colSpan={sessions.length}>
               <div className="flexbox flex-center gap-8">
-                <span>
+                <h2 className='font-12'>
                   {title && `${title} -`} {new Date(workout.created_at).toLocaleDateString('en-GB')}
-                </span>
+                </h2>
                 {notes && (
                   <Tooltip>
                     <p>
@@ -24,6 +31,14 @@ export default function Workout({ workout }) {
                   </Tooltip>
                 )}
               </div>
+
+              <button
+                className="delete-workout-btn"
+                aria-label="Delete workout"
+                onClick={() => setShowDeleteConfirmModal(true)}
+              >
+                <FontAwesomeIcon icon={faXmark} />
+              </button>
             </th>
           </tr>
 

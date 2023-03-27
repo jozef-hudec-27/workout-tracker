@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { request, arrOfLength, findMaxSets } from '../../utils'
 import Page from '../Page'
 import Error from './Error'
@@ -6,22 +6,11 @@ import { useNavigate } from 'react-router-dom'
 import ButtonGroup from '../ButtonGroup'
 import Select from '../Select'
 
-export default function AddWorkout({ workouts, setWorkouts }) {
-  const [allExercises, setAllExercises] = useState([])
+export default function AddWorkout({ workouts, setWorkouts, exercises }) {
   const [maxSets, setMaxSets] = useState(1)
   const [sessionCount, setSessionCount] = useState(1)
   const [createError, setCreateError] = useState(false)
   const navigate = useNavigate()
-
-  useEffect(() => {
-    request(
-      '/api/exercises',
-      'GET',
-      {},
-      (data) => setAllExercises(data),
-      (_) => setAllExercises(null)
-    )
-  }, [])
 
   const buildWorkoutObj = () => {
     const workout = {
@@ -111,7 +100,7 @@ export default function AddWorkout({ workouts, setWorkouts }) {
     })
   }
 
-  if (allExercises === null) {
+  if (exercises === null) {
     return <Error message="There was an error getting your exercises. Please try again later." />
   } else if (createError) {
     return <Error message="There was an error creating a new workout. Please try again later." />
@@ -159,7 +148,7 @@ export default function AddWorkout({ workouts, setWorkouts }) {
                 return (
                   <th key={i} id={`session-${i}`} className="session">
                     <div className="flexbox flex-column gap-4">
-                      <Select options={allExercises.map((e) => ({ value: e.id, name: e.name }))} hideDefault />
+                      <Select options={exercises.map((e) => ({ value: e.id, name: e.name }))} hideDefault />
                       <input type="number" placeholder="Rest time (s)" min="0" className="session-rest-time" />
                       <input type="text" placeholder="Note" className="session-note" />
                     </div>

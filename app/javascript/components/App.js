@@ -8,6 +8,7 @@ import Home from './pages/Home'
 export default function App() {
   const [workouts, setWorkouts] = useState([])
   const [workoutsError, setWorkoutsError] = useState(false)
+  const [exercises, setExercises] = useState([])
 
   useEffect(() => {
     request(
@@ -17,11 +18,15 @@ export default function App() {
       (data) => setWorkouts(data),
       (_) => setWorkoutsError(true)
     )
-  }, [])
 
-  const findMaxSets = (sessions) => {
-    
-  }
+    request(
+      '/api/exercises',
+      'GET',
+      {},
+      (data) => setExercises(data),
+      (_) => setExercises(null)
+    )
+  }, [])
 
   if (workoutsError) {
     return <Error message="Could not get your workouts. Please try again later." />
@@ -34,7 +39,10 @@ export default function App() {
 
         <Routes>
           <Route path="/" element={<Home workouts={workouts} />} />
-          <Route path="/workout/new" element={<AddWorkout workouts={workouts} setWorkouts={setWorkouts} />} />
+          <Route
+            path="/workout/new"
+            element={<AddWorkout workouts={workouts} setWorkouts={setWorkouts} exercises={exercises} />}
+          />
         </Routes>
       </BrowserRouter>
     </>
