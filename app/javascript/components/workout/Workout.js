@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import WorkoutDeleteConfirmModal from './WorkoutDeleteConfirmModal'
 
-export default function Workout({ workout }) {
+export default function Workout({ workout, setWorkouts }) {
   const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false)
 
   let { title, sessions, notes } = workout
@@ -13,14 +13,14 @@ export default function Workout({ workout }) {
 
   return (
     <div className="workout-wrapper">
-      {showDeleteConfirmModal && <WorkoutDeleteConfirmModal setShow={setShowDeleteConfirmModal} />}
+      {showDeleteConfirmModal && <WorkoutDeleteConfirmModal workout={workout} setWorkouts={setWorkouts} setShow={setShowDeleteConfirmModal} />}
 
-      <table className="workout">
+      <table id={`workout-${workout.id}`} className="workout">
         <thead>
           <tr>
             <th colSpan={sessions.length}>
               <div className="flexbox flex-center gap-8">
-                <h2 className='font-12'>
+                <h2 className="font-12">
                   {title && `${title} -`} {new Date(workout.created_at).toLocaleDateString('en-GB')}
                 </h2>
                 {notes && (

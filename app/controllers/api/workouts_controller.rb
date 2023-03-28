@@ -12,6 +12,16 @@ class Api::WorkoutsController < ApplicationController
     render json: workout, include: [sessions: { include: %i[series exercise] }], status: workout ? 201 : 500
   end
 
+  def destroy
+    workout = current_user.workouts.find_by id: params[:id]
+
+    return render(json: { message: 'Workout not found' }, status: 404) if workout.nil?
+
+    workout.destroy
+
+    render json: { message: 'Workout has been deleted' }
+  end
+
   private
 
   def build_workout_from(workout_hash)

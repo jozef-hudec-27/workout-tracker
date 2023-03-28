@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     get '/exercises', to: 'exercises#index'
-    resources :workouts, only: [:index, :create]
+    resources :workouts, only: %i[index create destroy]
   end
 
   root 'react#index'
