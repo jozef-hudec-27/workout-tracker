@@ -148,6 +148,12 @@ nav {
 }
 
 #workout-delete-modal {
+  border-left: 9px solid rgb(255, 114, 111);
+
+  .close-modal-btn {
+    color: rgb(255, 114, 111);
+  }
+
   .btn-group {
     button {
       font-weight: 600;
