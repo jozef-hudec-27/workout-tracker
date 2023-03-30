@@ -1,6 +1,7 @@
 import React from 'react'
 import { request } from '../../utils'
 import Modal from '../Modal'
+import useToast from '../../hooks/useToast'
 
 export default function WorkoutDeleteConfirmModal({ workout, setWorkouts, setShow }) {
   return (
@@ -26,16 +27,20 @@ export default function WorkoutDeleteConfirmModal({ workout, setWorkouts, setSho
                   }, 1000)
                   e.target.disabled = true
                 },
-                (err) => console.log(err)
+                (_) => useToast('Could not delete workout. Please try again later.', 'error-toast')
               )
             }}
           >
             Yes, delete
           </button>
-          <button onClick={(e) => {
-            document.querySelector('.close-modal-btn')?.click()
-            e.target.disabled = true
-          }}>No, go back</button>
+          <button
+            onClick={(e) => {
+              document.querySelector('.close-modal-btn')?.click()
+              e.target.disabled = true
+            }}
+          >
+            No, go back
+          </button>
         </div>
       </>
     </Modal>

@@ -5,11 +5,11 @@ import Error from './Error'
 import { useNavigate } from 'react-router-dom'
 import ButtonGroup from '../ButtonGroup'
 import Select from '../Select'
+import useToast from '../../hooks/useToast'
 
 export default function AddWorkout({ workouts, setWorkouts, exercises }) {
   const [maxSets, setMaxSets] = useState(1)
   const [sessionCount, setSessionCount] = useState(1)
-  const [createError, setCreateError] = useState(false)
   const navigate = useNavigate()
 
   const buildWorkoutObj = () => {
@@ -88,7 +88,7 @@ export default function AddWorkout({ workouts, setWorkouts, exercises }) {
         setWorkouts((prev) => [data, ...prev])
         navigate('/')
       },
-      (_) => setCreateError(true)
+      (_) => useToast('There was an error creating a new workout. Please try again later.', 'error-toast')
     )
   }
 
@@ -102,8 +102,6 @@ export default function AddWorkout({ workouts, setWorkouts, exercises }) {
 
   if (exercises === null) {
     return <Error message="There was an error getting your exercises. Please try again later." />
-  } else if (createError) {
-    return <Error message="There was an error creating a new workout. Please try again later." />
   }
 
   return (
