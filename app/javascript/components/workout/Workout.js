@@ -12,8 +12,10 @@ export default function Workout({ workout, setWorkouts }) {
   const maxSets = findMaxSets(sessions)
 
   return (
-    <div className="workout-wrapper">
-      {showDeleteConfirmModal && <WorkoutDeleteConfirmModal workout={workout} setWorkouts={setWorkouts} setShow={setShowDeleteConfirmModal} />}
+    <div className="workout-wrapper py-12">
+      {showDeleteConfirmModal && (
+        <WorkoutDeleteConfirmModal workout={workout} setWorkouts={setWorkouts} setShow={setShowDeleteConfirmModal} />
+      )}
 
       <table id={`workout-${workout.id}`} className="workout">
         <thead>

@@ -11,8 +11,13 @@
   </head>
 
   <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <% unless notice.blank? %>
+        <p class="notice"><%= notice %></p>
+    <% end %>
+
+    <% unless alert.blank? %>
+        <p class="alert"><%= alert %></p>
+    <% end %>
 
     <div id="root">
         <%= yield %>

@@ -10,7 +10,7 @@ export default function WorkoutDeleteConfirmModal({ workout, setWorkouts, setSho
 
         <div className="btn-group flexbox flex-center">
           <button
-            onClick={() => {
+            onClick={(e) => {
               request(
                 `/api/workouts/${workout.id}`,
                 'DELETE',
@@ -20,8 +20,11 @@ export default function WorkoutDeleteConfirmModal({ workout, setWorkouts, setSho
                   },
                 },
                 (_) => {
-                  setWorkouts((prevWorkouts) => [...prevWorkouts].filter((w) => w.id !== workout.id))
                   document.querySelector('.close-modal-btn')?.click()
+                  setTimeout(() => {
+                    setWorkouts((prevWorkouts) => [...prevWorkouts].filter((w) => w.id !== workout.id))
+                  }, 1000)
+                  e.target.disabled = true
                 },
                 (err) => console.log(err)
               )
@@ -29,7 +32,10 @@ export default function WorkoutDeleteConfirmModal({ workout, setWorkouts, setSho
           >
             Yes, delete
           </button>
-          <button onClick={() => document.querySelector('.close-modal-btn')?.click()}>No, go back</button>
+          <button onClick={(e) => {
+            document.querySelector('.close-modal-btn')?.click()
+            e.target.disabled = true
+          }}>No, go back</button>
         </div>
       </>
     </Modal>

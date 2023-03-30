@@ -71,7 +71,7 @@ nav {
 .workout-list {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 12px;
 }
 
 .workout-wrapper {
@@ -86,8 +86,13 @@ nav {
   width: 90%;
   margin: 0 auto;
   position: relative;
+  color: rgb(64, 64, 64);
 
-  thead tr {
+  .tooltip-content {
+    color: rgb(64, 64, 64);
+  }
+
+  thead {
     background-color: lighten($main-color, 5%);
     color: white;
     text-align: left;
