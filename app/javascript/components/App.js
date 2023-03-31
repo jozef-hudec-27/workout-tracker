@@ -9,6 +9,7 @@ export default function App() {
   const [workouts, setWorkouts] = useState([])
   const [workoutsError, setWorkoutsError] = useState(false)
   const [exercises, setExercises] = useState([])
+  const [currentWorkoutsPage, setCurrentWorkoutsPage] = useState(1)
 
   useEffect(() => {
     request(
@@ -38,7 +39,17 @@ export default function App() {
         <Navbar />
 
         <Routes>
-          <Route path="/" element={<Home workouts={workouts} setWorkouts={setWorkouts} />} />
+          <Route
+            path="/"
+            element={
+              <Home
+                workouts={workouts}
+                setWorkouts={setWorkouts}
+                currentWorkoutsPage={currentWorkoutsPage}
+                setCurrentWorkoutsPage={setCurrentWorkoutsPage}
+              />
+            }
+          />
           <Route
             path="/workout/new"
             element={<AddWorkout workouts={workouts} setWorkouts={setWorkouts} exercises={exercises} />}

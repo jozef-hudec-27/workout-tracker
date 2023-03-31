@@ -88,7 +88,7 @@ export default function AddWorkout({ workouts, setWorkouts, exercises }) {
         setWorkouts((prev) => [data, ...prev])
         navigate('/')
       },
-      (_) => useToast('There was an error creating a new workout. Please try again later.', 'error-toast')
+      (_) => useToast('There was an error creating a new workout. Please try again later.', 'error')
     )
   }
 

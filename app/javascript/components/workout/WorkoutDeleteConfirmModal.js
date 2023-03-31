@@ -27,7 +27,7 @@ export default function WorkoutDeleteConfirmModal({ workout, setWorkouts, setSho
                   }, 1000)
                   e.target.disabled = true
                 },
-                (_) => useToast('Could not delete workout. Please try again later.', 'error-toast')
+                (_) => useToast('Could not delete workout. Please try again later.', 'error')
               )
             }}
           >

@@ -141,14 +141,7 @@ nav {
 
 .add-workout-btns {
   button {
-    background-color: $main-color;
-    color: white;
-    font-weight: 600;
-
-    &:hover,
-    &:focus {
-      background-color: darken($main-color, 5%);
-    }
+    @extend .main-btn;
   }
 }
 
@@ -188,5 +181,10 @@ nav {
 
 .error-toast {
   background-color: rgb(229, 62, 62);
+  color: white;
+}
+
+.info-toast {
+  background-color: rgb(49, 130, 206);
   color: white;
 }

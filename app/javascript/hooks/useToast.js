@@ -1,7 +1,7 @@
-export default function useToast(message, className = '') {
+export default function useToast(message, type = '') {
   const toast = document.createElement('div')
   toast.classList.add('toast')
-  if (className) toast.classList.add(className)
+  if (type) toast.classList.add(`${type}-toast`)
 
   const para = document.createElement('p')
   para.textContent = message
@@ -18,5 +18,5 @@ export default function useToast(message, className = '') {
     a.onfinish = () => {
       toast.remove()
     }
-  }, 3000)
+  }, 4000)
 }
