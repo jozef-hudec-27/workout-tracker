@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { request } from '../utils'
 import Navbar from './Navbar'
+import AddExercise from './pages/AddExercise'
 import AddWorkout from './pages/AddWorkout'
 import Home from './pages/Home'
 
@@ -54,6 +55,7 @@ export default function App() {
             path="/workout/new"
             element={<AddWorkout workouts={workouts} setWorkouts={setWorkouts} exercises={exercises} />}
           />
+          <Route path="/exercise/new" element={<AddExercise setExercises={setExercises} />} />
         </Routes>
       </BrowserRouter>
     </>

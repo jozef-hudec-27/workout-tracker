@@ -302,9 +302,14 @@
 }
 
 .main-btn {
+  @extend %reset-appearance;
+
   background-color: $main-color !important;
   color: white;
   font-weight: 600;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 999px;
 
   &:hover,
   &:focus {

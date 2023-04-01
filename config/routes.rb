@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   namespace :api do
-    get '/exercises', to: 'exercises#index'
+    resources :exercises, only: %i[index create]
     resources :workouts, only: %i[index create destroy]
   end
 

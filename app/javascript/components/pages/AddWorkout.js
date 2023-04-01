@@ -106,6 +106,8 @@ export default function AddWorkout({ workouts, setWorkouts, exercises }) {
 
   return (
     <Page name="add-workout">
+      <h2>Add workout</h2>
+
       <div className="flexbox flex-align-center gap-8 py-16">
         <Select
           id="prev-workouts"

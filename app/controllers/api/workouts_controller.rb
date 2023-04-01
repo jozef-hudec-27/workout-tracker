@@ -18,7 +18,7 @@ class Api::WorkoutsController < ApplicationController
 
     return render(json: { message: 'Workout not found' }, status: 404) if workout.nil?
 
-    # workout.destroy
+    workout.destroy
 
     render json: { message: 'Workout has been deleted' }
   end
