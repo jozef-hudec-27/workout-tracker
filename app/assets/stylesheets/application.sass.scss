@@ -59,13 +59,23 @@ nav {
     list-style: none;
   }
 
-  a {
+  .nav-link a,
+  h1 a {
     @extend .animated-underline;
 
     outline: none;
     color: white;
     text-decoration: none;
   }
+
+  .dropdown {
+    display: none;
+  }
+}
+
+.nav-dropdown-btn {
+  @extend %reset-appearance;
+  color: white;
 }
 
 .workout-list {
@@ -187,4 +197,15 @@ nav {
 .info-toast {
   background-color: rgb(49, 130, 206);
   color: white;
+}
+
+@media (max-width: 576px) {
+  nav .dropdown {
+    display: block;
+  }
+
+  .nav-link.add-exercise,
+  .nav-link.add-workout {
+    display: none;
+  }
 }

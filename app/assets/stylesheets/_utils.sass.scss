@@ -163,7 +163,7 @@
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .animated-underline {
@@ -309,6 +309,33 @@
   &:hover,
   &:focus {
     background-color: darken($main-color, 5%) !important;
+  }
+}
+
+// DROPDOWN
+
+.dropdown {
+  width: fit-content;
+  position: relative;
+
+  .dropdown-content {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background-color: rgb(240, 240, 240);
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.4);
+
+    a {
+      color: rgb(64, 64, 64);
+      text-decoration: none;
+      padding: 8px;
+
+      &:hover,
+      &:focus {
+        background-color: rgb(225, 225, 225);
+      }
+    }
   }
 }
 

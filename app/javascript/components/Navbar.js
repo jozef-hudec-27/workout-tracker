@@ -1,5 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import Dropdown from './Dropdown'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
 export default function Navbar() {
   return (
@@ -9,7 +12,19 @@ export default function Navbar() {
       </h1>
 
       <ul className="flexbox gap-16">
-        <li className="nav-link">
+        <Dropdown
+          button={{ text: <FontAwesomeIcon icon={faChevronDown} />, className: 'nav-dropdown-btn' }}
+          links={[
+            { url: '/workout/new', text: 'Add workout' },
+            { url: '/workout/new', text: 'Add exercise' },
+          ]}
+        />
+
+        <li className="nav-link add-exercise">
+          <Link to="/workout/new">Add exercise</Link>
+        </li>
+
+        <li className="nav-link add-workout">
           <Link to="/workout/new">Add workout</Link>
         </li>
 
