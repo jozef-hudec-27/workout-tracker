@@ -3,9 +3,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import Page from '../Page'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import Exercise from '../exercise/Exercise'
+import ExerciseList from '../exercise/ExerciseList'
 
-export default function Exercises({ exercises }) {
+export default function Exercises({ exercises, setExercises }) {
   const navigate = useNavigate()
 
   return (
@@ -16,11 +16,7 @@ export default function Exercises({ exercises }) {
         </Link>
       </div>
 
-      <div className="exercise-list flexbox flex-column gap-16 flex-center">
-        {exercises.map((exercise) => {
-          return <Exercise key={exercise.id} exercise={exercise} />
-        })}
-      </div>
+      <ExerciseList exercises={exercises} setExercises={setExercises} />
     </Page>
   )
 }

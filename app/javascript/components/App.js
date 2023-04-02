@@ -56,7 +56,7 @@ export default function App() {
             path="/workout/new"
             element={<AddWorkout workouts={workouts} setWorkouts={setWorkouts} exercises={exercises} />}
           />
-          <Route path="/exercises" element={<Exercises exercises={exercises} />} />
+          <Route path="/exercises" element={<Exercises exercises={exercises} setExercises={setExercises} />} />
           <Route path="/exercise/new" element={<AddExercise setExercises={setExercises} />} />
         </Routes>
       </BrowserRouter>

@@ -12,6 +12,12 @@ class Api::ExercisesController < ApplicationController
     render json: exercise, status: exercise ? 201 : 500
   end
 
+  def update
+    exercise = current_user.exercises.find_by id: params[:id]
+    exercise_hash = JSON.parse request.body.read
+    render json: exercise, status: exercise&.update(name: exercise_hash['name'], description: exercise_hash['description']) ? 200 : 500
+  end
+
   private
 
   def build_exercise_from(exercise_hash)

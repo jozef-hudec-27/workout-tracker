@@ -197,12 +197,18 @@ nav {
 
 .error-toast {
   background-color: rgb(229, 62, 62);
-  color: white;
+
+  p {
+    color: white;
+  }
 }
 
 .info-toast {
   background-color: rgb(49, 130, 206);
-  color: white;
+
+  p {
+    color: white;
+  }
 }
 
 .add-exercise-inputs {

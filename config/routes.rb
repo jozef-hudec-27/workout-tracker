@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   namespace :api do
-    resources :exercises, only: %i[index create]
+    resources :exercises, only: %i[index create update]
     resources :workouts, only: %i[index create destroy]
   end
 
