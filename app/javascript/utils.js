@@ -24,3 +24,9 @@ export function arrOfLength(n) {
 export function findMaxSets(sessions) {
   return Math.max(...sessions.map((session) => session.series.length))
 }
+
+export function blockBtnSpam(event, callback) {
+  event.target.disabled = true
+  callback()
+  event.target.disabled = false
+}

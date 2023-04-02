@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { request, arrOfLength, findMaxSets } from '../../utils'
+import { request, arrOfLength, findMaxSets, blockBtnSpam } from '../../utils'
 import Page from '../Page'
 import Error from './Error'
 import { useNavigate } from 'react-router-dom'
@@ -75,25 +75,23 @@ export default function AddWorkout({ workouts, setWorkouts, exercises }) {
   }
 
   const handleSaveBtn = (e) => {
-    e.target.disabled = true
-
-    request(
-      '/api/workouts',
-      'POST',
-      {
-        headers: {
-          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+    blockBtnSpam(e, () => {
+      request(
+        '/api/workouts',
+        'POST',
+        {
+          headers: {
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+          },
+          body: JSON.stringify(buildWorkoutObj()),
         },
-        body: JSON.stringify(buildWorkoutObj()),
-      },
-      (data) => {
-        setWorkouts((prev) => [data, ...prev])
-        navigate('/')
-      },
-      (_) => useToast('There was an error creating a new workout. Please try again later.', 'error')
-    )
-
-    e.target.disabled = false
+        (data) => {
+          setWorkouts((prev) => [data, ...prev])
+          navigate('/')
+        },
+        (_) => useToast('There was an error creating a new workout. Please try again later.', 'error')
+      )
+    })
   }
 
   const handleClearBtn = () => {

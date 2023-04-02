@@ -1,6 +1,6 @@
 import React from 'react'
 import useToast from '../../hooks/useToast'
-import { request } from '../../utils'
+import { request, blockBtnSpam } from '../../utils'
 
 export default function LoadWorkoutsButton({ setWorkouts, currentPage, setCurrentPage }) {
   const loadWorkouts = () => {
@@ -28,9 +28,9 @@ export default function LoadWorkoutsButton({ setWorkouts, currentPage, setCurren
           <button
             className="main-btn"
             onClick={(e) => {
-              e.target.disabled = true
-              loadWorkouts()
-              e.target.disabled = false
+              blockBtnSpam(e, () => {
+                loadWorkouts()
+              })
             }}
           >
             Load more

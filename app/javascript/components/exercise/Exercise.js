@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import { faPenToSquare, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { request } from '../../utils'
+import { blockBtnSpam, request } from '../../utils'
 import useToast from '../../hooks/useToast'
 
 export default function Exercise({ exercise, setExercises }) {
@@ -19,36 +19,34 @@ export default function Exercise({ exercise, setExercises }) {
   }, [])
 
   const handleSubmitBtn = (e) => {
-    e.target.disabled = true
-
-    request(
-      `/api/exercises/${exercise.id}`,
-      'PUT',
-      {
-        headers: {
-          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+    blockBtnSpam(e, () => {
+      request(
+        `/api/exercises/${exercise.id}`,
+        'PUT',
+        {
+          headers: {
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+          },
+          body: JSON.stringify({ name: name, description: description }),
         },
-        body: JSON.stringify({ name: name, description: description }),
-      },
-      (_) => {
-        setOriginalName(name)
-        setOriginalDescription(description)
-        setIsEditing(false)
-        setExercises((prevExercises) =>
-          prevExercises.map((ex) => {
-            if (ex.id !== exercise.id) return ex
+        (_) => {
+          setOriginalName(name)
+          setOriginalDescription(description)
+          setIsEditing(false)
+          setExercises((prevExercises) =>
+            prevExercises.map((ex) => {
+              if (ex.id !== exercise.id) return ex
 
-            const newExercise = { ...ex }
-            newExercise.name = name
-            newExercise.description = description
-            return newExercise
-          })
-        )
-      },
-      (_) => useToast('Could not update exercise.', 'error')
-    )
-
-    e.target.disabled = false
+              const newExercise = { ...ex }
+              newExercise.name = name
+              newExercise.description = description
+              return newExercise
+            })
+          )
+        },
+        (_) => useToast('Could not update exercise.', 'error')
+      )
+    })
   }
 
   return (

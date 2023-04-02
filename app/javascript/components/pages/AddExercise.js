@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Page from '../Page'
 import { useNavigate } from 'react-router-dom'
-import { request } from '../../utils'
+import { request, blockBtnSpam } from '../../utils'
 import useToast from '../../hooks/useToast'
 
 export default function AddExercise({ setExercises }) {
@@ -10,30 +10,28 @@ export default function AddExercise({ setExercises }) {
   const navigate = useNavigate()
 
   const handleSubmitBtn = (e) => {
-    e.target.disabled = true
-
-    if (!!exerciseName) {
-      request(
-        '/api/exercises',
-        'POST',
-        {
-          headers: {
-            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+    blockBtnSpam(e, () => {
+      if (!!exerciseName) {
+        request(
+          '/api/exercises',
+          'POST',
+          {
+            headers: {
+              'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            },
+            body: JSON.stringify({ name: exerciseName, description: exerciseDescription }),
           },
-          body: JSON.stringify({ name: exerciseName, description: exerciseDescription }),
-        },
-        (data) => {
-          setExercises((prevExercises) => [...prevExercises, data])
-          navigate('/exercises')
-          useToast(`New exercise '${exerciseName}' created.`, 'info')
-        },
-        (_) => useToast('There was an error creating a new exercise. Please try again later.', 'error')
-      )
-    } else {
-      useToast('Exercise name cannot be empty!', 'error')
-    }
-
-    e.target.disabled = false
+          (data) => {
+            setExercises((prevExercises) => [...prevExercises, data])
+            navigate('/exercises')
+            useToast(`New exercise '${exerciseName}' created.`, 'info')
+          },
+          (_) => useToast('There was an error creating a new exercise. Please try again later.', 'error')
+        )
+      } else {
+        useToast('Exercise name cannot be empty!', 'error')
+      }
+    })
   }
 
   return (
