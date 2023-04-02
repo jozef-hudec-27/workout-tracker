@@ -49,8 +49,33 @@ export default function Exercise({ exercise, setExercises }) {
     })
   }
 
+  const handleDeleteBtn = (e) => {
+    blockBtnSpam(e, () => {
+      request(
+        `/api/exercises/${exercise.id}`,
+        'DELETE',
+        {
+          headers: {
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+          },
+        },
+        (data) => {
+          if (data.message.includes('deleted')) {
+            setExercises((prevExercises) => prevExercises.filter((ex) => ex.id !== exercise.id))
+          }
+          useToast(data.message, 'info')
+        },
+        (_) => useToast('Could not delete exercise.', 'error')
+      )
+    })
+  }
+
   return (
     <div className="flexbox gap-16 flex-center">
+      <button aria-label="Delete exercise" className="empty-btn" onClick={handleDeleteBtn}>
+        <FontAwesomeIcon icon={faXmark} />
+      </button>
+
       <div className="exercise flexbox flex-column">
         {isEditing ? (
           <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" />
