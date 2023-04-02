@@ -24,7 +24,7 @@ export default function AddExercise({ setExercises }) {
         },
         (data) => {
           setExercises((prevExercises) => [...prevExercises, data])
-          navigate('/')
+          navigate('/exercises')
           useToast(`New exercise '${exerciseName}' created.`, 'info')
         },
         (_) => useToast('There was an error creating a new exercise. Please try again later.', 'error')

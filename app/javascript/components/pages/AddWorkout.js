@@ -74,7 +74,9 @@ export default function AddWorkout({ workouts, setWorkouts, exercises }) {
     })
   }
 
-  const handleSaveBtn = () => {
+  const handleSaveBtn = (e) => {
+    e.target.disabled = true
+
     request(
       '/api/workouts',
       'POST',
@@ -90,6 +92,8 @@ export default function AddWorkout({ workouts, setWorkouts, exercises }) {
       },
       (_) => useToast('There was an error creating a new workout. Please try again later.', 'error')
     )
+
+    e.target.disabled = false
   }
 
   const handleClearBtn = () => {
@@ -185,7 +189,7 @@ export default function AddWorkout({ workouts, setWorkouts, exercises }) {
       <ButtonGroup
         className="add-workout-btns"
         btnObjs={[
-          { name: 'Save', onClick: handleSaveBtn },
+          { name: 'Save', onClick: (e) => handleSaveBtn(e) },
           { name: 'Clear', onClick: handleClearBtn },
         ]}
       />

@@ -11,6 +11,7 @@ p,
 a,
 ul {
   margin: 0;
+  color: rgb(64, 64, 64);
 }
 
 ul {
@@ -25,7 +26,8 @@ body {
 }
 
 input,
-select {
+select,
+textarea {
   outline: none;
   box-sizing: border-box;
   width: 150px;
@@ -104,9 +106,13 @@ nav {
 
   thead {
     background-color: lighten($main-color, 5%);
-    color: white;
     text-align: left;
     font-size: 1.3em;
+    color: white !important;
+
+    h2 {
+      color: white;
+    }
   }
 
   th,
@@ -216,6 +222,24 @@ nav {
   }
 }
 
+.exercise {
+  width: 50vw;
+  background-color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.25);
+
+  input,
+  textarea {
+    width: 100%;
+  }
+
+  textarea {
+    resize: vertical;
+    margin-top: 8px;
+  }
+}
+
 @media (max-width: 576px) {
   nav .dropdown {
     display: block;
@@ -231,5 +255,9 @@ nav {
     textarea {
       width: 90%;
     }
+  }
+
+  .exercise {
+    width: 60vw;
   }
 }

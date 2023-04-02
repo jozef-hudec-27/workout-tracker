@@ -196,18 +196,19 @@
   button {
     @extend %reset-appearance;
 
+    border-radius: 0 !important;
     padding: 8px 12px;
     cursor: pointer;
   }
 
   button:first-of-type {
-    border-top-left-radius: 999px;
-    border-bottom-left-radius: 999px;
+    border-top-left-radius: 999px !important;
+    border-bottom-left-radius: 999px !important;
   }
 
   button:last-of-type {
-    border-top-right-radius: 999px;
-    border-bottom-right-radius: 999px;
+    border-top-right-radius: 999px !important;
+    border-bottom-right-radius: 999px !important;
   }
 }
 

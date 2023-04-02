@@ -4,6 +4,7 @@ import { request } from '../utils'
 import Navbar from './Navbar'
 import AddExercise from './pages/AddExercise'
 import AddWorkout from './pages/AddWorkout'
+import Exercises from './pages/Exercises'
 import Home from './pages/Home'
 
 export default function App() {
@@ -55,6 +56,7 @@ export default function App() {
             path="/workout/new"
             element={<AddWorkout workouts={workouts} setWorkouts={setWorkouts} exercises={exercises} />}
           />
+          <Route path="/exercises" element={<Exercises exercises={exercises} />} />
           <Route path="/exercise/new" element={<AddExercise setExercises={setExercises} />} />
         </Routes>
       </BrowserRouter>
