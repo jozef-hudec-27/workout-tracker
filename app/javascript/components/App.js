@@ -6,6 +6,7 @@ import AddExercise from './pages/AddExercise'
 import AddWorkout from './pages/AddWorkout'
 import Exercises from './pages/Exercises'
 import Home from './pages/Home'
+import PageNotFound from './pages/PageNotFound'
 
 export default function App() {
   const [workouts, setWorkouts] = useState([])
@@ -52,12 +53,16 @@ export default function App() {
               />
             }
           />
+
           <Route
             path="/workout/new"
             element={<AddWorkout workouts={workouts} setWorkouts={setWorkouts} exercises={exercises} />}
           />
+
           <Route path="/exercises" element={<Exercises exercises={exercises} setExercises={setExercises} />} />
           <Route path="/exercise/new" element={<AddExercise setExercises={setExercises} />} />
+
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
     </>
