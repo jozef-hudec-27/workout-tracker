@@ -8,46 +8,10 @@ import Select from '../Select'
 import useToast from '../../hooks/useToast'
 import ExercisesSelect from '../exercise/ExercisesSelect'
 
-export default function AddWorkout({ workouts, setWorkouts, exercises, fillWorkoutSessionInfo }) {
+export default function AddWorkout({ workouts, setWorkouts, exercises, fillWorkoutSessionInfo, buildWorkoutObj }) {
   const [maxSets, setMaxSets] = useState(1)
   const [sessionCount, setSessionCount] = useState(1)
   const navigate = useNavigate()
-
-  const buildWorkoutObj = () => {
-    const workout = {
-      title: document.getElementById('workout-title').value,
-      notes: document.getElementById('workout-notes').value,
-      sessions: [],
-    }
-
-    const sessionElements = Array.from(document.getElementsByClassName('session'))
-    for (let i = 0; i < sessionElements.length; i++) {
-      const sessionEl = sessionElements[i]
-
-      const sessionObj = {
-        note: sessionEl.querySelector('.session-note').value,
-        exerciseId: sessionEl.querySelector('select').value,
-        restTime: sessionEl.querySelector('.session-rest-time').value,
-        sets: [],
-      }
-
-      const setElements = Array.from(document.getElementsByClassName(`session-${i}-set`))
-      for (let j = 0; j < setElements.length; j++) {
-        const setEl = setElements[j]
-        const setObj = {
-          weight: setEl.querySelector('.set-weight').value,
-          reps: setEl.querySelector('.set-reps').value,
-          note: setEl.querySelector('.set-note').value,
-        }
-
-        sessionObj.sets.push(setObj)
-      }
-
-      workout.sessions.push(sessionObj)
-    }
-
-    return workout
-  }
 
   const copyToTable = (workout) => {
     setSessionCount(workout.sessions.length)

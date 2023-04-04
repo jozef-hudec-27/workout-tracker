@@ -85,7 +85,7 @@ export default function Workout({ workout, setWorkouts }) {
           {arrOfLength(maxSets).map((i) => {
             return (
               <tr key={i}>
-                {arrOfLength(maxSets).map((j) => {
+                {arrOfLength(sessions.length).map((j) => {
                   const set = sessions[j]?.series[i]
 
                   if (!set) return

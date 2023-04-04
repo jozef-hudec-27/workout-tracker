@@ -48,12 +48,49 @@ export default function App() {
 
         const setEls = Array.from(document.getElementsByClassName(`session-${i}-set`) || [])
         setEls.forEach((setEl, j) => {
-          setEl.querySelector('.set-weight').value = workout.sessions[i].series[j].weight
-          setEl.querySelector('.set-reps').value = workout.sessions[i].series[j].reps
-          setEl.querySelector('.set-note').value = workout.sessions[i].series[j].note
+          setEl.querySelector('.set-weight').value = workout.sessions[i]?.series[j].weight
+          setEl.querySelector('.set-reps').value = workout.sessions[i]?.series[j].reps
+          setEl.querySelector('.set-note').value = workout.sessions[i]?.series[j].note
         })
       })
     })
+  }
+
+  // Creates an object with data from workout table in the DOM
+  const buildWorkoutObj = () => {
+    const workout = {
+      title: document.getElementById('workout-title').value,
+      notes: document.getElementById('workout-notes').value,
+      sessions: [],
+    }
+
+    const sessionElements = Array.from(document.getElementsByClassName('session'))
+    for (let i = 0; i < sessionElements.length; i++) {
+      const sessionEl = sessionElements[i]
+
+      const sessionObj = {
+        note: sessionEl.querySelector('.session-note').value,
+        exerciseId: sessionEl.querySelector('select').value,
+        restTime: sessionEl.querySelector('.session-rest-time').value,
+        sets: [],
+      }
+
+      const setElements = Array.from(document.getElementsByClassName(`session-${i}-set`))
+      for (let j = 0; j < setElements.length; j++) {
+        const setEl = setElements[j]
+        const setObj = {
+          weight: setEl.querySelector('.set-weight').value,
+          reps: setEl.querySelector('.set-reps').value,
+          note: setEl.querySelector('.set-note').value,
+        }
+
+        sessionObj.sets.push(setObj)
+      }
+
+      workout.sessions.push(sessionObj)
+    }
+
+    return workout
   }
 
   if (workoutsError) {
@@ -86,12 +123,20 @@ export default function App() {
                 setWorkouts={setWorkouts}
                 exercises={exercises}
                 fillWorkoutSessionInfo={fillWorkoutSessionInfo}
+                buildWorkoutObj={buildWorkoutObj}
               />
             }
           />
           <Route
             path="/workouts/:id/edit"
-            element={<EditWorkout exercises={exercises} fillWorkoutSessionInfo={fillWorkoutSessionInfo} />}
+            element={
+              <EditWorkout
+                exercises={exercises}
+                setWorkouts={setWorkouts}
+                fillWorkoutSessionInfo={fillWorkoutSessionInfo}
+                buildWorkoutObj={buildWorkoutObj}
+              />
+            }
           />
 
           <Route path="/exercises" element={<Exercises exercises={exercises} setExercises={setExercises} />} />
