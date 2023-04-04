@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Select({ id, label, onChange, options, hideDefault }) {
+export default function Select({ id, label, onChange, options, hideDefault, xref }) {
   return (
     <>
       {label && <label htmlFor={id}>{label}:</label>}
@@ -16,7 +16,7 @@ export default function Select({ id, label, onChange, options, hideDefault }) {
           const { value, name } = option
 
           return (
-            <option key={i} value={value}>
+            <option key={i} value={value} ref={i === options.length - 1 ? xref : null}>
               {name}
             </option>
           )

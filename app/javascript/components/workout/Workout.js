@@ -2,11 +2,13 @@ import React, { useState } from 'react'
 import { arrOfLength, findMaxSets } from '../../utils'
 import Tooltip from '../Tooltip'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faXmark, faPen } from '@fortawesome/free-solid-svg-icons'
 import WorkoutDeleteConfirmModal from './WorkoutDeleteConfirmModal'
+import { useNavigate } from 'react-router-dom'
 
 export default function Workout({ workout, setWorkouts }) {
   const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false)
+  const navigate = useNavigate()
 
   let { title, sessions, notes } = workout
   const maxSets = findMaxSets(sessions)
@@ -21,6 +23,14 @@ export default function Workout({ workout, setWorkouts }) {
         <thead>
           <tr>
             <th colSpan={sessions.length}>
+              <button
+                className="edit-workout-btn"
+                aria-label="Edit workout"
+                onClick={() => navigate(`/workouts/${workout.id}/edit`)}
+              >
+                <FontAwesomeIcon icon={faPen} />
+              </button>
+
               <div className="flexbox flex-center gap-8">
                 <h2 className="font-12">
                   {title && `${title} -`} {new Date(workout.created_at).toLocaleDateString('en-GB')}

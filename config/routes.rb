@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :exercises, only: %i[index create update destroy]
-    resources :workouts, only: %i[index create destroy]
+    resources :workouts, only: %i[index create destroy show]
   end
 
   root 'react#index'

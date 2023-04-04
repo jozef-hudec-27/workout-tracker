@@ -4,6 +4,7 @@ import { request } from '../utils'
 import Navbar from './Navbar'
 import AddExercise from './pages/AddExercise'
 import AddWorkout from './pages/AddWorkout'
+import EditWorkout from './pages/EditWorkout'
 import Exercises from './pages/Exercises'
 import Home from './pages/Home'
 import PageNotFound from './pages/PageNotFound'
@@ -32,6 +33,29 @@ export default function App() {
     )
   }, [])
 
+  // Copies given workout's sessions info to table in the DOM
+  const fillWorkoutSessionInfo = (workout) => {
+    if (!workout) return
+
+    workout.sessions.forEach((session, i) => {
+      window.requestAnimationFrame(() => {
+        const sessionEl = document.getElementById(`session-${i}`)
+        if (!sessionEl) return
+
+        sessionEl.querySelector('.session-rest-time').value = session.rest_time
+        sessionEl.querySelector('.session-note').value = session.note
+        sessionEl.querySelector('select').value = session.exercise_id
+
+        const setEls = Array.from(document.getElementsByClassName(`session-${i}-set`) || [])
+        setEls.forEach((setEl, j) => {
+          setEl.querySelector('.set-weight').value = workout.sessions[i].series[j].weight
+          setEl.querySelector('.set-reps').value = workout.sessions[i].series[j].reps
+          setEl.querySelector('.set-note').value = workout.sessions[i].series[j].note
+        })
+      })
+    })
+  }
+
   if (workoutsError) {
     return <Error message="Could not get your workouts. Please try again later." />
   }
@@ -56,7 +80,18 @@ export default function App() {
 
           <Route
             path="/workout/new"
-            element={<AddWorkout workouts={workouts} setWorkouts={setWorkouts} exercises={exercises} />}
+            element={
+              <AddWorkout
+                workouts={workouts}
+                setWorkouts={setWorkouts}
+                exercises={exercises}
+                fillWorkoutSessionInfo={fillWorkoutSessionInfo}
+              />
+            }
+          />
+          <Route
+            path="/workouts/:id/edit"
+            element={<EditWorkout exercises={exercises} fillWorkoutSessionInfo={fillWorkoutSessionInfo} />}
           />
 
           <Route path="/exercises" element={<Exercises exercises={exercises} setExercises={setExercises} />} />

@@ -135,7 +135,8 @@ nav {
     }
   }
 
-  .delete-workout-btn {
+  .delete-workout-btn,
+  .edit-workout-btn {
     @extend %reset-appearance;
 
     cursor: pointer;
@@ -148,6 +149,13 @@ nav {
     &:focus {
       transform: scale(1.5);
     }
+  }
+
+  .edit-workout-btn {
+    left: 8px;
+    left: 8px;
+    top: unset;
+    right: unset;
   }
 }
 

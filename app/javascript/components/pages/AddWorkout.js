@@ -6,8 +6,9 @@ import { useNavigate } from 'react-router-dom'
 import ButtonGroup from '../ButtonGroup'
 import Select from '../Select'
 import useToast from '../../hooks/useToast'
+import ExercisesSelect from '../exercise/ExercisesSelect'
 
-export default function AddWorkout({ workouts, setWorkouts, exercises }) {
+export default function AddWorkout({ workouts, setWorkouts, exercises, fillWorkoutSessionInfo }) {
   const [maxSets, setMaxSets] = useState(1)
   const [sessionCount, setSessionCount] = useState(1)
   const navigate = useNavigate()
@@ -55,23 +56,7 @@ export default function AddWorkout({ workouts, setWorkouts, exercises }) {
     document.getElementById('workout-title').value = workout.title
     document.getElementById('workout-notes').value = workout.notes
 
-    workout.sessions.forEach((session, i) => {
-      window.requestAnimationFrame(() => {
-        const sessionEl = document.getElementById(`session-${i}`)
-        if (!sessionEl) return
-
-        sessionEl.querySelector('select').value = session.exercise_id
-        sessionEl.querySelector('.session-rest-time').value = session.rest_time
-        sessionEl.querySelector('.session-note').value = session.note
-
-        const setEls = Array.from(document.getElementsByClassName(`session-${i}-set`) || [])
-        setEls.forEach((setEl, j) => {
-          setEl.querySelector('.set-weight').value = workout.sessions[i].series[j].weight
-          setEl.querySelector('.set-reps').value = workout.sessions[i].series[j].reps
-          setEl.querySelector('.set-note').value = workout.sessions[i].series[j].note
-        })
-      })
-    })
+    fillWorkoutSessionInfo(workout)
   }
 
   const handleSaveBtn = (e) => {
@@ -150,7 +135,7 @@ export default function AddWorkout({ workouts, setWorkouts, exercises }) {
                 return (
                   <th key={i} id={`session-${i}`} className="session">
                     <div className="flexbox flex-column gap-4">
-                      <Select options={exercises.map((e) => ({ value: e.id, name: e.name }))} hideDefault />
+                      <ExercisesSelect exercises={exercises} />
                       <input type="number" placeholder="Rest time (s)" min="0" className="session-rest-time" />
                       <input type="text" placeholder="Note" className="session-note" />
                     </div>
