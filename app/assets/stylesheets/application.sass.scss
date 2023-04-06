@@ -45,6 +45,12 @@ input {
   background-color: rgb(252, 252, 252);
 }
 
+.label {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
 nav {
   display: flex;
   justify-content: space-around;
@@ -219,12 +225,17 @@ nav {
   }
 }
 
-.add-exercise-inputs {
+.add-exercise-inputs,
+.edit-user-inputs {
+  label {
+    width: 50vw;
+  }
+
   input,
   textarea {
-    width: 50%;
     padding: 8px 16px;
     border-radius: 4px;
+    flex: 1;
 
     &:focus {
       outline: 2px solid lightgreen;
@@ -263,13 +274,6 @@ nav {
   .nav-link.add-exercise,
   .nav-link.add-workout {
     display: none;
-  }
-
-  .add-exercise-inputs {
-    input,
-    textarea {
-      width: 90%;
-    }
   }
 
   .exercise {

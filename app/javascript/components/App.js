@@ -4,6 +4,7 @@ import { request } from '../utils'
 import Navbar from './Navbar'
 import AddExercise from './pages/AddExercise'
 import AddWorkout from './pages/AddWorkout'
+import EditUserPage from './pages/EditUserPage'
 import EditWorkout from './pages/EditWorkout'
 import Exercises from './pages/Exercises'
 import Home from './pages/Home'
@@ -116,7 +117,7 @@ export default function App() {
           />
 
           <Route
-            path="/workout/new"
+            path="/workouts/new"
             element={
               <AddWorkout
                 workouts={workouts}
@@ -140,7 +141,9 @@ export default function App() {
           />
 
           <Route path="/exercises" element={<Exercises exercises={exercises} setExercises={setExercises} />} />
-          <Route path="/exercise/new" element={<AddExercise setExercises={setExercises} />} />
+          <Route path="/exercises/new" element={<AddExercise setExercises={setExercises} />} />
+
+          <Route path="/users/edit" element={<EditUserPage />} />
 
           <Route path="*" element={<PageNotFound />} />
         </Routes>

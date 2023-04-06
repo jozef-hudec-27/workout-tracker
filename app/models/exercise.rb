@@ -1,5 +1,6 @@
 class Exercise < ApplicationRecord
   validates :name, presence: true
+  has_many :sessions, dependent: :destroy
 
   belongs_to :user
 

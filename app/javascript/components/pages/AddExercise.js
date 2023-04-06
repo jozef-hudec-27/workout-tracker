@@ -39,18 +39,25 @@ export default function AddExercise({ setExercises }) {
       <h2 style={{ marginBottom: '16px' }}>Add new exercise</h2>
 
       <div className="add-exercise-inputs flexbox flex-center flex-column gap-16">
-        <input
-          type="text"
-          placeholder="Name"
-          value={exerciseName}
-          onChange={(e) => setExerciseName(e.target.value)}
-          required
-        />
-        <textarea
-          placeholder="Description"
-          value={exerciseDescription}
-          onChange={(e) => setExerciseDescription(e.target.value)}
-        ></textarea>
+        <label className="label">
+          Name:
+          <input
+            type="text"
+            placeholder="Bench Press"
+            value={exerciseName}
+            onChange={(e) => setExerciseName(e.target.value)}
+            required
+          />
+        </label>
+
+        <label className="label">
+          Description:
+          <textarea
+            placeholder="Lorem Ipsum dolor sit amet..."
+            value={exerciseDescription}
+            onChange={(e) => setExerciseDescription(e.target.value)}
+          ></textarea>
+        </label>
 
         <button className="main-btn" onClick={(e) => handleSubmitBtn(e)}>
           Submit

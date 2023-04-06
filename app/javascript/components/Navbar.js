@@ -15,7 +15,7 @@ export default function Navbar() {
         <Dropdown
           button={{ text: <FontAwesomeIcon icon={faChevronDown} />, className: 'nav-dropdown-btn' }}
           links={[
-            { url: '/workout/new', text: 'Add workout' },
+            { url: '/workouts/new', text: 'Add workout' },
             { url: '/exercises', text: 'My exercises' },
           ]}
         />
@@ -25,7 +25,7 @@ export default function Navbar() {
         </li>
 
         <li className="nav-link add-workout">
-          <Link to="/workout/new">Add workout</Link>
+          <Link to="/workouts/new">Add workout</Link>
         </li>
 
         <li className="nav-link">
