@@ -1,14 +1,18 @@
+import CryptoJS from 'crypto-js'
+
 export function request(url, method = 'GET', options = {}, successCb = function () {}, errorCb = function () {}) {
   fetch(url, { method: method, ...options })
     .then((response) => {
-      if (response.ok) {
-        return response.json()
-      } else {
-        throw new Error('Error')
-      }
+      return response.json().then((json) => {
+        if (response.ok) {
+          return json
+        } else {
+          throw json
+        }
+      })
     })
-    .then(successCb)
-    .catch(errorCb)
+    .then((data) => successCb(data))
+    .catch((error) => errorCb(error))
 }
 
 export function arrOfLength(n) {
@@ -30,3 +34,7 @@ export function blockBtnSpam(event, callback) {
   callback()
   event.target.disabled = false
 }
+
+// export function encrypt(string, key) {
+//   return CryptoJS.AES.encrypt(string, key).toString()
+// }

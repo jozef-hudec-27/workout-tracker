@@ -38,30 +38,32 @@ export default function AddExercise({ setExercises }) {
     <Page name="add-exercise">
       <h2 style={{ marginBottom: '16px' }}>Add new exercise</h2>
 
-      <div className="add-exercise-inputs flexbox flex-center flex-column gap-16">
-        <label className="label">
-          Name:
-          <input
-            type="text"
-            placeholder="Bench Press"
-            value={exerciseName}
-            onChange={(e) => setExerciseName(e.target.value)}
-            required
-          />
-        </label>
+      <div className="flexbox flex-center">
+        <div className="add-exercise-inputs flexbox flex-column gap-16">
+          <label className="label">
+            Name:
+            <input
+              type="text"
+              placeholder="Bench Press"
+              value={exerciseName}
+              onChange={(e) => setExerciseName(e.target.value)}
+              required
+            />
+          </label>
 
-        <label className="label">
-          Description:
-          <textarea
-            placeholder="Lorem Ipsum dolor sit amet..."
-            value={exerciseDescription}
-            onChange={(e) => setExerciseDescription(e.target.value)}
-          ></textarea>
-        </label>
+          <label className="label">
+            Description:
+            <textarea
+              placeholder="Lorem Ipsum dolor sit amet..."
+              value={exerciseDescription}
+              onChange={(e) => setExerciseDescription(e.target.value)}
+            ></textarea>
+          </label>
 
-        <button className="main-btn" onClick={(e) => handleSubmitBtn(e)}>
-          Submit
-        </button>
+          <button className="main-btn" onClick={(e) => handleSubmitBtn(e)}>
+            Submit
+          </button>
+        </div>
       </div>
     </Page>
   )

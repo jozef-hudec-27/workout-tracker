@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'base64'
+require 'openssl'
+
 class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
@@ -16,8 +19,26 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # PUT /resource
   def update
-    p "@@@@@@@@@@@ #{params} @@@@@@@@@@@"
-    super
+    data = JSON.parse request.body.read
+
+    user = current_user
+
+    user.email = data['email'] if data['email'].present?
+
+    if user.valid_password?(data['oldPassword'])
+      if data['newPassword'].present?
+        user.password = data['newPassword']
+        user.password_confirmation = data['newPasswordConfirmation']
+      end
+
+      if user.save
+        render json: { message: 'User edited successfully.' }
+      else
+        render json: { message: user.errors.full_messages.join(' ') }, status: 422
+      end
+    else
+      render json: { message: 'Old password is incorrect.' }, status: 401
+    end
   end
 
   # DELETE /resource
