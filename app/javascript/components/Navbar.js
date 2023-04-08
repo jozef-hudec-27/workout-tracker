@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Dropdown from './Dropdown'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import useToast from '../hooks/useToast'
 
 export default function Navbar() {
   return (
@@ -42,10 +43,10 @@ export default function Navbar() {
               })
                 .then((response) => {
                   if (response.ok) return (window.location.href = '')
-                  throw new Error('Could not log out')
+                  throw new Error('')
                 })
-                .catch((err) => {
-                  console.log(err)
+                .catch((_) => {
+                  useToast('Unable to log out.', 'error')
                 })
             }}
           >
