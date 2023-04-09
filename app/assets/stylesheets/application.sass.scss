@@ -21,7 +21,7 @@ ul {
 body {
   margin: 0;
   height: 100vh;
-    background-color: rgb(252, 252, 252);
+  background-color: rgb(252, 252, 252);
   font-family: sans-serif;
 }
 
@@ -58,6 +58,19 @@ input {
   padding: 16px;
   border-radius: 4px;
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
+}
+
+.field_with_errors {
+  width: 100%;
+
+  input {
+    width: 100%;
+    outline: 1px solid red;
+
+    &:focus {
+      outline: 1px solid red !important;
+    }
+  }
 }
 
 nav {
@@ -282,7 +295,8 @@ nav {
   }
 
   .nav-link.add-exercise,
-  .nav-link.add-workout {
+  .nav-link.add-workout,
+  .nav-link.edit-user {
     display: none;
   }
 

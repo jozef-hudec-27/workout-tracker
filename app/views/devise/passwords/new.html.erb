@@ -1,12 +1,12 @@
+<%= render "devise/shared/error_messages", resource: resource %>
+
 <div class="forgot-password-page p-24">
     <h1 class="mb-24" style="color: rgb(0, 152, 121); text-align: center; font-size: 3.5em;">Forgot your password?</h1>
 
     <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: 'form flexbox flex-center' }) do |f| %>
         <div class="add-exercise-inputs flexbox flex-column gap-16">
-            <%= render "devise/shared/error_messages", resource: resource %>
-
             <label class="label">Email:
-                <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+                <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: 'john.doe@example.com' %>
             </label>
 
 

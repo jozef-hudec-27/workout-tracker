@@ -9,11 +9,13 @@ export default function Home({ workouts, setWorkouts, currentWorkoutsPage, setCu
     <Page name="home">
       <WorkoutList workouts={workouts} setWorkouts={setWorkouts} />
 
-      <LoadWorkoutsButton
-        setWorkouts={setWorkouts}
-        currentPage={currentWorkoutsPage}
-        setCurrentPage={setCurrentWorkoutsPage}
-      />
+      {!!workouts.length ? (
+        <LoadWorkoutsButton
+          setWorkouts={setWorkouts}
+          currentPage={currentWorkoutsPage}
+          setCurrentPage={setCurrentWorkoutsPage}
+        />
+      ) : <p>Get to work and add your first workout!</p>}
     </Page>
   )
 }

@@ -18,6 +18,7 @@ export default function Navbar() {
           links={[
             { url: '/workouts/new', text: 'Add workout' },
             { url: '/exercises', text: 'My exercises' },
+            { url: '/users/edit', text: 'Edit account' },
           ]}
         />
 
@@ -27,6 +28,10 @@ export default function Navbar() {
 
         <li className="nav-link add-workout">
           <Link to="/workouts/new">Add workout</Link>
+        </li>
+
+        <li className="nav-link edit-user">
+          <Link to="/users/edit">Account</Link>
         </li>
 
         <li className="nav-link">
