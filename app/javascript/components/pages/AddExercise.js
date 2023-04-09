@@ -28,7 +28,9 @@ export default function AddExercise({ setExercises }) {
             navigate('/exercises')
             useToast(`New exercise '${exerciseName}' created.`, 'info')
           },
-          (_) => useToast('There was an error creating a new exercise. Please try again later.', 'error')
+          (_) => {
+            useToast('Could not create an exercise. Please  try again later.', 'error')
+          }
         )
       } else {
         useToast('Exercise name cannot be empty!', 'error')
@@ -51,6 +53,7 @@ export default function AddExercise({ setExercises }) {
               onChange={(e) => setExerciseName(e.target.value)}
               required
             />
+            <em className="font-09">max 100 characters</em>
           </label>
 
           <label className="label">
@@ -60,6 +63,7 @@ export default function AddExercise({ setExercises }) {
               value={exerciseDescription}
               onChange={(e) => setExerciseDescription(e.target.value)}
             ></textarea>
+            <em className="font-09">max 1000 characters</em>
           </label>
 
           <button className="main-btn">Create</button>

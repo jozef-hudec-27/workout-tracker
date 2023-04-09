@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_21_182830) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_09_075119) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "exercises", force: :cascade do |t|
-    t.string "name", null: false
+    t.string "name", limit: 100, null: false
     t.text "description"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
@@ -24,9 +24,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_21_182830) do
   end
 
   create_table "series", force: :cascade do |t|
-    t.string "reps", null: false
-    t.string "weight"
-    t.string "note"
+    t.string "reps", limit: 50, null: false
+    t.string "weight", limit: 50
+    t.string "note", limit: 1000
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "session_id", null: false
@@ -35,7 +35,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_21_182830) do
 
   create_table "sessions", force: :cascade do |t|
     t.bigint "workout_id", null: false
-    t.string "note"
+    t.string "note", limit: 1000
     t.integer "rest_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -57,7 +57,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_21_182830) do
   end
 
   create_table "workouts", force: :cascade do |t|
-    t.string "title", null: false
+    t.string "title", limit: 1000, null: false
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
