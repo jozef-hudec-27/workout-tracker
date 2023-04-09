@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import useToast from '../../hooks/useToast'
-import { request } from '../../utils'
+import { blockBtnSpam, request } from '../../utils'
 
 export default function UserEditForm({ user }) {
   const emailRef = useRef()
@@ -11,44 +11,46 @@ export default function UserEditForm({ user }) {
   const handleEdit = (e) => {
     e.preventDefault()
 
-    const email = emailRef.current.value
-    const newPassword = newPasswordRef.current.value
-    const newPasswordConfirmation = newPasswordConfirmationRef.current.value
-    const oldPassword = currentPasswordRef.current.value
+    blockBtnSpam(e, () => {
+      const email = emailRef.current.value
+      const newPassword = newPasswordRef.current.value
+      const newPasswordConfirmation = newPasswordConfirmationRef.current.value
+      const oldPassword = currentPasswordRef.current.value
 
-    if (!oldPassword) {
-      return useToast('Current password cannot be empty.', 'info')
-    } else if (newPassword !== newPasswordConfirmation) {
-      return useToast('New password and password confirmation must match.', 'info')
-    }
-
-    const body = JSON.stringify({
-      email,
-      newPassword,
-      newPasswordConfirmation,
-      oldPassword,
-    })
-
-    request(
-      '/users',
-      'PUT',
-      {
-        headers: {
-          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        },
-        body,
-      },
-      (_) => {
-        useToast('User updated successfully', 'info')
-      },
-      (error) => {
-        useToast(error.message, 'error')
+      if (!oldPassword) {
+        return useToast('Current password cannot be empty.', 'info')
+      } else if (newPassword !== newPasswordConfirmation) {
+        return useToast('New password and password confirmation must match.', 'info')
       }
-    )
+
+      const body = JSON.stringify({
+        email,
+        newPassword,
+        newPasswordConfirmation,
+        oldPassword,
+      })
+
+      request(
+        '/users',
+        'PUT',
+        {
+          headers: {
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+          },
+          body,
+        },
+        (_) => {
+          useToast('User updated successfully', 'info')
+        },
+        (error) => {
+          useToast(error.message, 'error')
+        }
+      )
+    })
   }
 
   return (
-    <form className="edit-user-form flexbox flex-center py-16" onSubmit={handleEdit}>
+    <form className="form edit-user-form flexbox flex-center py-16" onSubmit={handleEdit}>
       <div className="edit-user-inputs flexbox flex-column gap-16">
         <label className="label">
           Email:

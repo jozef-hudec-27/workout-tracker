@@ -23,7 +23,7 @@ export default function EditUserPage() {
     <Page name="edit-user">
       {showDeleteAccountModal && <UserDeleteConfirmModal setShow={setShowDeleteAccountModal} />}
 
-      <h1>Edit account</h1>
+      <h2 className="mb-16">Edit account</h2>
 
       {!!!user ? (
         <p>User not found.</p>
@@ -32,7 +32,7 @@ export default function EditUserPage() {
           <UserEditForm user={user} />
 
           <div className="flexbox flex-center">
-            <button className="main-btn" onClick={() => setShowDeleteAccountModal(true)}>
+            <button className="main-btn mt-16" onClick={() => setShowDeleteAccountModal(true)}>
               Delete account
             </button>
           </div>

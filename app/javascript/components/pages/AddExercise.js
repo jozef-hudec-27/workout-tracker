@@ -9,7 +9,9 @@ export default function AddExercise({ setExercises }) {
   const [exerciseDescription, setExerciseDescription] = useState('')
   const navigate = useNavigate()
 
-  const handleSubmitBtn = (e) => {
+  const handleCreate = (e) => {
+    e.preventDefault()
+
     blockBtnSpam(e, () => {
       if (!!exerciseName) {
         request(
@@ -36,9 +38,9 @@ export default function AddExercise({ setExercises }) {
 
   return (
     <Page name="add-exercise">
-      <h2 style={{ marginBottom: '16px' }}>Add new exercise</h2>
+      <h2 className="mb-16">Add new exercise</h2>
 
-      <div className="flexbox flex-center">
+      <form className="form flexbox flex-center" onSubmit={handleCreate}>
         <div className="add-exercise-inputs flexbox flex-column gap-16">
           <label className="label">
             Name:
@@ -60,11 +62,9 @@ export default function AddExercise({ setExercises }) {
             ></textarea>
           </label>
 
-          <button className="main-btn" onClick={(e) => handleSubmitBtn(e)}>
-            Submit
-          </button>
+          <button className="main-btn">Create</button>
         </div>
-      </div>
+      </form>
     </Page>
   )
 }

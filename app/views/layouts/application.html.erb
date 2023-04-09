@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>WorkoutTracker</title>
+    <title>LiftLog</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -12,11 +12,15 @@
 
   <body>
     <% unless notice.blank? %>
-        <p class="notice"><%= notice %></p>
+        <div data-controller="toast" class="toast info-toast">
+            <p><%= notice %></p>
+        </div>
     <% end %>
 
     <% unless alert.blank? %>
-        <p class="alert"><%= alert %></p>
+        <div data-controller="toast" class="toast error-toast">
+            <p><%= alert %></p>
+        </div>
     <% end %>
 
     <div id="root">

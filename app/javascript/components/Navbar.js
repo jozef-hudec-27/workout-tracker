@@ -9,7 +9,7 @@ export default function Navbar() {
   return (
     <nav>
       <h1>
-        <Link to="/">WorkoutTracker</Link>
+        <Link to="/">LiftLog</Link>
       </h1>
 
       <ul className="flexbox gap-16">

@@ -9,3 +9,6 @@ application.register('hello', HelloController)
 
 import ReactController from './react_controller'
 application.register('react', ReactController)
+
+import ToastController from './toast_controller'
+application.register('toast', ToastController)

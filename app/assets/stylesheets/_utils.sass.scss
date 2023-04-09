@@ -58,7 +58,7 @@
   border-radius: 9999px;
 }
 
-@for $i from 0 through 24 {
+@for $i from 0 through 32 {
   .p-#{$i} {
     padding: #{$i}px;
   }
@@ -76,7 +76,7 @@
   }
 }
 
-@for $i from 0 through 20 {
+@for $i from 0 through 32 {
   .m-#{$i} {
     margin: #{$i}px;
   }

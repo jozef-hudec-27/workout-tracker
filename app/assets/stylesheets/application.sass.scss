@@ -21,11 +21,11 @@ ul {
 body {
   margin: 0;
   height: 100vh;
-  background-color: rgb(252, 252, 252);
+    background-color: rgb(252, 252, 252);
   font-family: sans-serif;
 }
 
-input,
+input:not([type='checkbox']),
 select,
 textarea {
   outline: none;
@@ -49,6 +49,15 @@ input {
   display: flex;
   gap: 4px;
   align-items: center;
+}
+
+.form {
+  background-color: white;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 16px;
+  border-radius: 4px;
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
 }
 
 nav {
@@ -175,7 +184,8 @@ nav {
   }
 }
 
-#workout-delete-modal, #account-delete-modal {
+#workout-delete-modal,
+#account-delete-modal {
   border-left: 9px solid rgb(255, 114, 111);
 
   .close-modal-btn {
@@ -231,7 +241,7 @@ nav {
     width: 50vw;
   }
 
-  input,
+  input:not([type='checkbox']),
   textarea {
     padding: 8px 16px;
     border-radius: 4px;
