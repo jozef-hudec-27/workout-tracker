@@ -1,24 +1,22 @@
-# README
+# LiftLog
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A simple Rails application paired with React for tracking your workouts. You can create your own exercises, and use them.
 
-Things you may want to cover:
+## Built with
 
-* Ruby version
+- Ruby 3.1.2
+- Rails 7.0.4.3
+- React 18.2.0
+- Sass 1.59.3
 
-* System dependencies
+![Login page](https://github.com/jozef-hudec-27/workout-tracker/blob/main/app/assets/images/screenshots/login.png?raw=true)
+_Login_
 
-* Configuration
+![My exercises page](https://github.com/jozef-hudec-27/workout-tracker/blob/main/app/assets/images/screenshots/exercises.png?raw=true)
+_User exercises_
 
-* Database creation
+![Create workout page](https://github.com/jozef-hudec-27/workout-tracker/blob/main/app/assets/images/screenshots/create_workout.png?raw=true)
+_Create workout_
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+![Home page](https://github.com/jozef-hudec-27/workout-tracker/blob/main/app/assets/images/screenshots/home.png?raw=true)
+_Home_
