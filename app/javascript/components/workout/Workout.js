@@ -60,12 +60,15 @@ export default function Workout({ workout, setWorkouts }) {
                 <th key={session.id}>
                   <span className="flexbox flex-align-center gap-8">
                     {session.exercise.name}
-                    {session.rest_time && (
+                    {(session.rest_time || session.note) && (
                       <Tooltip>
                         <>
-                          <p>
-                            <strong>Rest time</strong>: {session.rest_time}s
-                          </p>
+                          {session.rest_time && (
+                            <p>
+                              <strong>Rest time</strong>: {session.rest_time}s
+                            </p>
+                          )}
+
                           {session.note && (
                             <p>
                               <strong>Note</strong>: {session.note}
