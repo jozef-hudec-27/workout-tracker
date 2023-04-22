@@ -2,14 +2,14 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Page from '../Page'
 import { useParams } from 'react-router-dom'
-import { arrOfLength, blockBtnSpam, findMaxSets, request } from '../../utils'
+import { arrOfLength, blockBtnSpam, request } from '../../utils'
 import useToast from '../../hooks/useToast'
 import ExercisesSelect from '../exercise/ExercisesSelect'
 import ButtonGroup from '../ButtonGroup'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 
-export default function EditWorkout({ exercises, setWorkouts, fillWorkoutSessionInfo, buildWorkoutObj }) {
+export default function EditWorkout({ exercises, setWorkouts }) {
   const [workout, setWorkout] = useState({})
   const maxSets = useCallback(() => {
     let max = 0
@@ -49,10 +49,6 @@ export default function EditWorkout({ exercises, setWorkouts, fillWorkoutSession
       return { ...prevWorkout, sessions: sessionsCopy }
     })
   }
-
-  const selectRef = useCallback(() => {
-    fillWorkoutSessionInfo(workout)
-  }, [workout])
 
   const handleUpdateBtn = (e) => {
     blockBtnSpam(e, () => {
@@ -165,7 +161,6 @@ export default function EditWorkout({ exercises, setWorkouts, fillWorkoutSession
                             exercises={exercises}
                             value={session.exercise_id}
                             onChange={(e) => updateWorkoutSession(i, 'exercise_id', e)}
-                            xref={selectRef}
                           />
                           <input
                             type="text"
