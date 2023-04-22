@@ -118,14 +118,7 @@ export default function App() {
 
           <Route
             path="/workouts/new"
-            element={
-              <AddWorkout
-                workouts={workouts}
-                setWorkouts={setWorkouts}
-                exercises={exercises}
-                fillWorkoutSessionInfo={fillWorkoutSessionInfo}
-              />
-            }
+            element={<AddWorkout workouts={workouts} setWorkouts={setWorkouts} exercises={exercises} />}
           />
           <Route
             path="/workouts/:id/edit"

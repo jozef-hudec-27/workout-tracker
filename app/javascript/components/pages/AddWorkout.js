@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { request, arrOfLength, findMaxSets, blockBtnSpam } from '../../utils'
+import { request, arrOfLength, blockBtnSpam } from '../../utils'
 import Page from '../Page'
 import Error from './Error'
 import { useNavigate } from 'react-router-dom'
@@ -10,12 +10,12 @@ import ExercisesSelect from '../exercise/ExercisesSelect'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 
-export default function AddWorkout({ workouts, setWorkouts, exercises, fillWorkoutSessionInfo, }) {
+export default function AddWorkout({ workouts, setWorkouts, exercises }) {
   const [newWorkout, setNewWorkout] = useState({
     title: '',
     notes: '',
     sessions: [
-      { note: '', exerciseId: exercises[0]?.id || 0, restTime: 0, series: [{ note: '', weight: '', reps: '' }] },
+      { note: '', exercise_id: exercises[0]?.id || 0, rest_time: '', series: [{ note: '', weight: '', reps: '' }] },
     ],
   })
   const maxSets = useCallback(() => {
@@ -34,7 +34,7 @@ export default function AddWorkout({ workouts, setWorkouts, exercises, fillWorko
         title: '',
         notes: '',
         sessions: [
-          { note: '', exerciseId: exercises[0].id, restTime: 0, series: [{ note: '', weight: '', reps: '' }] },
+          { note: '', exercise_id: exercises[0].id, rest_time: '', series: [{ note: '', weight: '', reps: '' }] },
         ],
       })
     }
@@ -56,16 +56,6 @@ export default function AddWorkout({ workouts, setWorkouts, exercises, fillWorko
     })
   }
 
-  const copyToTable = (workout) => {
-    setSessionCount(workout.sessions.length)
-    setMaxSets(findMaxSets(workout.sessions))
-
-    document.getElementById('workout-title').value = workout.title
-    document.getElementById('workout-notes').value = workout.notes
-
-    fillWorkoutSessionInfo(workout)
-  }
-
   const handleSaveBtn = (e) => {
     blockBtnSpam(e, () => {
       request(
@@ -84,7 +74,6 @@ export default function AddWorkout({ workouts, setWorkouts, exercises, fillWorko
         (_) => useToast('There was an error creating a new workout. Please try again later.', 'error')
       )
     })
-    // console.log(JSON.stringify(newWorkout))
   }
 
   const handleClearBtn = () => {
@@ -92,12 +81,18 @@ export default function AddWorkout({ workouts, setWorkouts, exercises, fillWorko
       title: '',
       notes: '',
       sessions: [
-        { note: '', exerciseId: exercises[0]?.id || 0, restTime: 0, series: [{ note: '', weight: '', reps: '' }] },
+        { note: '', exercise_id: exercises[0]?.id || 0, rest_time: '', series: [{ note: '', weight: '', reps: '' }] },
       ],
     })
   }
 
-  const handleDeleteSessionBtn = (i) => {}
+  const handleDeleteSession = (index) => {
+    setNewWorkout((prevWorkout) => {
+      let sessionsCopy = prevWorkout.sessions.slice()
+      sessionsCopy.splice(index, 1)
+      return { ...prevWorkout, sessions: sessionsCopy }
+    })
+  }
 
   const handleAddSet = () => {
     const sessionsCopy = newWorkout.sessions.slice()
@@ -116,8 +111,8 @@ export default function AddWorkout({ workouts, setWorkouts, exercises, fillWorko
         ...prevWorkout.sessions,
         {
           note: '',
-          exerciseId: exercises[0].id,
-          restTime: 0,
+          exercise_id: exercises[0].id,
+          rest_time: '',
           series: Array.from({ length: maxSets() }, () => [{ note: '', weight: '', reps: '' }]).flat(),
         },
       ],
@@ -185,22 +180,26 @@ export default function AddWorkout({ workouts, setWorkouts, exercises, fillWorko
               {newWorkout.sessions.map((session, i) => {
                 return (
                   <th key={i} id={`session-#{i}`} className="session">
-                    <button className="delete-session-btn" aria-label="Delete session" onClick={function () {}}>
+                    <button
+                      className="delete-session-btn"
+                      aria-label="Delete session"
+                      onClick={() => handleDeleteSession(i)}
+                    >
                       <FontAwesomeIcon icon={faXmark} />
                     </button>
 
                     <div className="flexbox flex-column gap-4">
                       <ExercisesSelect
                         exercises={exercises}
-                        onChange={(e) => updateWorkoutSession(i, 'exerciseId', e)}
+                        value={session.exercise_id}
+                        onChange={(e) => updateWorkoutSession(i, 'exercise_id', e)}
                       />
                       <input
-                        type="number"
+                        type="text"
                         placeholder="Rest time (s)"
-                        min="0"
                         className="session-rest-time"
-                        value={session.restTime || session.rest_time || 0}
-                        onChange={(e) => updateWorkoutSession(i, 'restTime', e)}
+                        value={session.rest_time}
+                        onChange={(e) => updateWorkoutSession(i, 'rest_time', e)}
                       />
                       <input
                         type="text"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_09_075119) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_22_082336) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -36,7 +36,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_09_075119) do
   create_table "sessions", force: :cascade do |t|
     t.bigint "workout_id", null: false
     t.string "note", limit: 1000
-    t.integer "rest_time"
+    t.string "rest_time", default: ""
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "exercise_id", null: false

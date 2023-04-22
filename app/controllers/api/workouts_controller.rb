@@ -10,7 +10,7 @@ class Api::WorkoutsController < ApplicationController
   def create
     workout_hash = JSON.parse request.body.read
     workout = build_workout_from workout_hash
-    render json: workout, include: [sessions: { include: %i[series exercise] }], status: workout ? 201 : 500
+    render json: workout, include: [sessions: { include: %i[series exercise] }], status: workout.nil? ? 500 : 201
   end
 
   def destroy
@@ -52,7 +52,7 @@ class Api::WorkoutsController < ApplicationController
 
     workout_hash['sessions'].each do |session_hash|
       session = workout.sessions.new note: session_hash['note'],
-                                     rest_time: session_hash['restTime'] || session_hash['rest_time'] || 0, exercise_id: session_hash['exerciseId']
+                                     rest_time: session_hash['rest_time'], exercise_id: session_hash['exercise_id']
 
       session_hash['series'].each do |set_hash|
         set = session.series.new note: set_hash['note'], weight: set_hash['weight'], reps: set_hash['reps']
@@ -62,7 +62,7 @@ class Api::WorkoutsController < ApplicationController
       session.save if session.valid?
     end
 
-    return unless workout.valid?
+    return unless workout.save
 
     workout
   end
