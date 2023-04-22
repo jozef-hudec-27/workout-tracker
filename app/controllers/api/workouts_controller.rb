@@ -69,10 +69,10 @@ class Api::WorkoutsController < ApplicationController
 
   def build_sessions_for_from(workout, sessions_arr)
     sessions_arr.each do |session_hash|
-      session = workout.sessions.new note: session_hash['note'], rest_time: session_hash['restTime'],
-                                     exercise_id: session_hash['exerciseId']
+      session = workout.sessions.new note: session_hash['note'], rest_time: session_hash['rest_time'],
+                                     exercise_id: session_hash['exercise_id']
 
-      session_hash['sets'].each do |set_hash|
+      session_hash['series'].each do |set_hash|
         set = session.series.new note: set_hash['note'], weight: set_hash['weight'], reps: set_hash['reps']
         set.save if set.valid?
       end
