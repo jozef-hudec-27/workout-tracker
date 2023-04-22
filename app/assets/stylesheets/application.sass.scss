@@ -187,6 +187,21 @@ nav {
   }
 }
 
+.delete-session-btn {
+  @extend %reset-appearance;
+
+  color: white;
+  cursor: pointer;
+  margin-bottom: 16px;
+  margin-left: 75px;
+  transform: translateX(-50%);
+
+  &:hover,
+  &:focus {
+    transform: translateX(-50%) scale(1.3);
+  }
+}
+
 .page-error {
   text-align: center;
 }

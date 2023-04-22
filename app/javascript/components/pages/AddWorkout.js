@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { request, arrOfLength, findMaxSets, blockBtnSpam } from '../../utils'
 import Page from '../Page'
 import Error from './Error'
@@ -7,11 +7,54 @@ import ButtonGroup from '../ButtonGroup'
 import Select from '../Select'
 import useToast from '../../hooks/useToast'
 import ExercisesSelect from '../exercise/ExercisesSelect'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
 
-export default function AddWorkout({ workouts, setWorkouts, exercises, fillWorkoutSessionInfo, buildWorkoutObj }) {
-  const [maxSets, setMaxSets] = useState(1)
-  const [sessionCount, setSessionCount] = useState(1)
+export default function AddWorkout({ workouts, setWorkouts, exercises, fillWorkoutSessionInfo, }) {
+  const [newWorkout, setNewWorkout] = useState({
+    title: '',
+    notes: '',
+    sessions: [
+      { note: '', exerciseId: exercises[0]?.id || 0, restTime: 0, series: [{ note: '', weight: '', reps: '' }] },
+    ],
+  })
+  const maxSets = useCallback(() => {
+    let max = 0
+    newWorkout.sessions.forEach((session) => {
+      max = Math.max(max, session.series.length)
+    })
+
+    return max
+  }, [newWorkout])
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (exercises.length > 0) {
+      setNewWorkout({
+        title: '',
+        notes: '',
+        sessions: [
+          { note: '', exerciseId: exercises[0].id, restTime: 0, series: [{ note: '', weight: '', reps: '' }] },
+        ],
+      })
+    }
+  }, [exercises])
+
+  const updateWorkoutSession = (index, key, e) => {
+    setNewWorkout((prevWorkout) => {
+      const sessionsCopy = prevWorkout.sessions.slice()
+      sessionsCopy[index][key] = e.target.value
+      return { ...prevWorkout, sessions: sessionsCopy }
+    })
+  }
+
+  const updateWorkoutSet = (sessionIndex, setIndex, key, e) => {
+    setNewWorkout((prevWorkout) => {
+      const sessionsCopy = prevWorkout.sessions.slice()
+      sessionsCopy[sessionIndex].series[setIndex][key] = e.target.value
+      return { ...prevWorkout, sessions: sessionsCopy }
+    })
+  }
 
   const copyToTable = (workout) => {
     setSessionCount(workout.sessions.length)
@@ -32,7 +75,7 @@ export default function AddWorkout({ workouts, setWorkouts, exercises, fillWorko
           headers: {
             'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
           },
-          body: JSON.stringify(buildWorkoutObj()),
+          body: JSON.stringify(newWorkout),
         },
         (data) => {
           setWorkouts((prev) => [data, ...prev])
@@ -41,18 +84,50 @@ export default function AddWorkout({ workouts, setWorkouts, exercises, fillWorko
         (_) => useToast('There was an error creating a new workout. Please try again later.', 'error')
       )
     })
+    // console.log(JSON.stringify(newWorkout))
   }
 
   const handleClearBtn = () => {
-    setMaxSets(1)
-    setSessionCount(1)
-    Array.from(document.querySelectorAll('input')).forEach((input) => {
-      input.value = ''
+    setNewWorkout({
+      title: '',
+      notes: '',
+      sessions: [
+        { note: '', exerciseId: exercises[0]?.id || 0, restTime: 0, series: [{ note: '', weight: '', reps: '' }] },
+      ],
     })
+  }
+
+  const handleDeleteSessionBtn = (i) => {}
+
+  const handleAddSet = () => {
+    const sessionsCopy = newWorkout.sessions.slice()
+
+    for (let i = 0; i < sessionsCopy.length; i++) {
+      sessionsCopy[i].series.push((emptySet = { note: '', weight: '', reps: '' }))
+    }
+
+    setNewWorkout((prevWorkout) => ({ ...prevWorkout, sessions: sessionsCopy }))
+  }
+
+  const handleAddSession = () => {
+    setNewWorkout((prevWorkout) => ({
+      ...prevWorkout,
+      sessions: [
+        ...prevWorkout.sessions,
+        {
+          note: '',
+          exerciseId: exercises[0].id,
+          restTime: 0,
+          series: Array.from({ length: maxSets() }, () => [{ note: '', weight: '', reps: '' }]).flat(),
+        },
+      ],
+    }))
   }
 
   if (exercises === null) {
     return <Error message="There was an error getting your exercises. Please try again later." />
+  } else if (!!!exercises.length) {
+    return <Error message="You don't have any exercises yet. Create some first." />
   }
 
   return (
@@ -65,7 +140,7 @@ export default function AddWorkout({ workouts, setWorkouts, exercises, fillWorko
           label="Copy workout"
           onChange={(e) => {
             const pickedWorkout = workouts.find((w) => w.id == e.target.value)
-            if (pickedWorkout) copyToTable(pickedWorkout)
+            if (pickedWorkout) setNewWorkout({ ...pickedWorkout })
           }}
           options={workouts.map((w) => ({
             value: w.id,
@@ -77,8 +152,8 @@ export default function AddWorkout({ workouts, setWorkouts, exercises, fillWorko
       <ButtonGroup
         className="add-workout-btns"
         btnObjs={[
-          { name: 'Add set', onClick: () => setMaxSets((prev) => prev + 1) },
-          { name: 'Add session', onClick: () => setSessionCount((prev) => prev + 1) },
+          { name: 'Add set', onClick: handleAddSet },
+          { name: 'Add session', onClick: handleAddSession },
         ]}
       />
 
@@ -86,22 +161,54 @@ export default function AddWorkout({ workouts, setWorkouts, exercises, fillWorko
         <table className="workout">
           <thead>
             <tr>
-              <th colSpan={sessionCount}>
+              <th colSpan={newWorkout.sessions.length}>
                 <div className="flexbox flex-center gap-8">
-                  <input id="workout-title" type="text" placeholder="Title" />
-                  <input id="workout-notes" type="text" placeholder="Notes" />
+                  <input
+                    id="workout-title"
+                    type="text"
+                    placeholder="Title"
+                    value={newWorkout.title}
+                    onChange={(e) => setNewWorkout((prevWorkout) => ({ ...prevWorkout, title: e.target.value }))}
+                  />
+                  <input
+                    id="workout-notes"
+                    type="text"
+                    placeholder="Notes"
+                    value={newWorkout.notes}
+                    onChange={(e) => setNewWorkout((prevWorkout) => ({ ...prevWorkout, notes: e.target.value }))}
+                  />
                 </div>
               </th>
             </tr>
 
             <tr>
-              {arrOfLength(sessionCount).map((i) => {
+              {newWorkout.sessions.map((session, i) => {
                 return (
-                  <th key={i} id={`session-${i}`} className="session">
+                  <th key={i} id={`session-#{i}`} className="session">
+                    <button className="delete-session-btn" aria-label="Delete session" onClick={function () {}}>
+                      <FontAwesomeIcon icon={faXmark} />
+                    </button>
+
                     <div className="flexbox flex-column gap-4">
-                      <ExercisesSelect exercises={exercises} />
-                      <input type="number" placeholder="Rest time (s)" min="0" className="session-rest-time" />
-                      <input type="text" placeholder="Note" className="session-note" />
+                      <ExercisesSelect
+                        exercises={exercises}
+                        onChange={(e) => updateWorkoutSession(i, 'exerciseId', e)}
+                      />
+                      <input
+                        type="number"
+                        placeholder="Rest time (s)"
+                        min="0"
+                        className="session-rest-time"
+                        value={session.restTime || session.rest_time || 0}
+                        onChange={(e) => updateWorkoutSession(i, 'restTime', e)}
+                      />
+                      <input
+                        type="text"
+                        placeholder="Note"
+                        className="session-note"
+                        value={session.note}
+                        onChange={(e) => updateWorkoutSession(i, 'note', e)}
+                      />
                     </div>
                   </th>
                 )
@@ -110,18 +217,37 @@ export default function AddWorkout({ workouts, setWorkouts, exercises, fillWorko
           </thead>
 
           <tbody>
-            {arrOfLength(maxSets).map((i) => {
+            {arrOfLength(maxSets()).map((i) => {
               return (
                 <tr key={i}>
-                  {arrOfLength(sessionCount).map((j) => {
+                  {newWorkout.sessions.map((session, j) => {
                     return (
                       <td key={j}>
                         <div className={`session-${j}-set flexbox flex-column gap-2`}>
                           <span className="flexbox flex-align-center gap-4">
-                            <input type="text" placeholder="Weight" className="set-weight" />x
+                            <input
+                              type="text"
+                              placeholder="Weight"
+                              className="set-weight"
+                              value={session.series[i].weight}
+                              onChange={(e) => updateWorkoutSet(j, i, 'weight', e)}
+                            />
+                            x
                           </span>
-                          <input type="text" placeholder="Reps" className="set-reps" />
-                          <input type="text" placeholder="Note" className="set-note mt-4" />
+                          <input
+                            type="text"
+                            placeholder="Reps"
+                            className="set-reps"
+                            value={session.series[i].reps}
+                            onChange={(e) => updateWorkoutSet(j, i, 'reps', e)}
+                          />
+                          <input
+                            type="text"
+                            placeholder="Note"
+                            className="set-note mt-4"
+                            value={session.series[i].note}
+                            onChange={(e) => updateWorkoutSet(j, i, 'note', e)}
+                          />
                         </div>
                       </td>
                     )

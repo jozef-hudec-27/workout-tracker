@@ -124,7 +124,6 @@ export default function App() {
                 setWorkouts={setWorkouts}
                 exercises={exercises}
                 fillWorkoutSessionInfo={fillWorkoutSessionInfo}
-                buildWorkoutObj={buildWorkoutObj}
               />
             }
           />
