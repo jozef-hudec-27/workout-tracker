@@ -109,6 +109,18 @@ export default function WorkoutAction({ action, exercises, workouts, setWorkouts
     })
   }
 
+  const handleRemoveSet = () => {
+    setWorkout((prevWorkout) => {
+      const sessionsCopy = prevWorkout.sessions.slice()
+
+      for (let i = 0; i < sessionsCopy.length; i++) {
+        sessionsCopy[i].series.pop()
+      }
+
+      return { ...prevWorkout, sessions: sessionsCopy }
+    })
+  }
+
   // Add workout functions
 
   const handleSaveBtn = (e) => {
@@ -208,6 +220,7 @@ export default function WorkoutAction({ action, exercises, workouts, setWorkouts
         btnObjs={[
           { name: 'Add set', onClick: handleAddSet },
           { name: 'Add session', onClick: handleAddSession },
+          { name: 'Remove last sets', onClick: handleRemoveSet },
         ]}
       />
 
@@ -254,7 +267,7 @@ export default function WorkoutAction({ action, exercises, workouts, setWorkouts
                         onChange={(e) => updateWorkoutSession(i, 'exercise_id', e)}
                       />
                       <input
-                        type="text"
+                        type="number"
                         placeholder="Rest time (s)"
                         className="session-rest-time"
                         value={session.rest_time}
