@@ -81,3 +81,7 @@ gem 'letter_opener', group: :development
 
 gem 'openssl'
 gem 'base64'
+
+gem "dockerfile-rails", ">= 1.5", :group => :development
+
+gem "redis", "~> 5.0"
